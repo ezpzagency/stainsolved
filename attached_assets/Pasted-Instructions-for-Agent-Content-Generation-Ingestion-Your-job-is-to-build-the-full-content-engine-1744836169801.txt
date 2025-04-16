@@ -1,0 +1,141 @@
+Instructions for Agent: Content Generation & Ingestion
+
+Your job is to build the full content engine for the stain removal knowledge base. This includes ingesting structured seed data, transforming it into useful human-readable content, and wiring it into the static generation system. Every piece of content must be actionable, SEO-targeted, and LLM-consumable.
+
+⸻
+
+1. Ingest and Normalize Content
+
+Start with the 50 seed stain-material combinations provided.
+
+Each StainRemovalGuide entry includes:
+	•	pre_treatment – immediate response
+	•	products – what to gather
+	•	wash_method – main cleaning process
+	•	warnings – what NOT to do
+	•	effectiveness – High/Medium/Low
+
+Your task:
+	•	Load this data into the Neon Postgres DB (via Prisma seed script or SQL)
+	•	Validate each field exists and matches a corresponding stain_id and material_id
+	•	Normalize product names into a clean, deduplicated list (e.g., avoid “dish soap” vs “liquid dish soap”)
+
+⸻
+
+2. Generate Human-Readable Content from Schema
+
+For every [stain]-[material] pair, programmatically generate the content components using templates and rules (see below). Use real language—not robotic phrases.
+
+Structure for Each Page:
+	•	Title/H1: “How to Remove [Stain] Stains from [Material]”
+	•	Intro Paragraph: 2–3 sentences about the stain, its challenge, and your goal (include human context)
+	•	What You’ll Need (Supplies): Pull from products, format as a checklist
+	•	Step-by-Step Instructions: Merge pre_treatment + wash_method into a clean sequence of 3–6 steps
+	•	Use numbered format
+	•	Include optional pro tips or cautions as italic notes
+	•	Warnings Section: Pull from warnings, show as alert/callout block
+	•	Effectiveness Statement: “This method is considered [effectiveness].” Follow with a 1–2 sentence explanation.
+	•	FAQs (2–3 per page):
+	•	Write real questions users would ask about this stain-material combo
+	•	Pull answers from pre_treatment, wash_method, or warnings
+	•	Format in standard Q&A and include in FAQPage JSON-LD
+
+⸻
+
+3. Template Logic Rules
+
+To generate clean content at scale, follow this logic:
+
+Intro Generator:
+
+"Removing [stain] from [material] can be tricky, but with the right technique, it's usually fixable. This guide walks you through step-by-step how to get rid of [stain] stains on [material] using common household supplies."
+
+Step Generator:
+	•	Step 1 = Always derived from pre_treatment
+	•	Step 2–4 = From wash_method (split logically)
+	•	Include tips inline: e.g., “Tip: Always blot, never rub—especially with delicate fabrics.”
+
+Warning Generator:
+
+"Don't use hot water on protein-based stains like [stain]—it can set them permanently."
+
+Effectiveness Statement:
+
+"This method is rated [effectiveness] for [stain] on [material]. It works well if applied promptly, but older stains may require multiple treatments."
+
+FAQ Generator Example:
+	•	Q: “Can I use bleach on [material]?”
+A: Only if it’s white cotton. Bleach may damage or discolor delicate or colored fabrics.
+
+⸻
+
+4. Store + Expose Content to Frontend
+
+Store rendered content in your DB or generate it at build time using logic in your content layer.
+
+Option 1: Store as flat HTML/text in the DB (rendered_steps, rendered_intro, etc.)
+
+Option 2: Generate it dynamically in getStaticProps or generateStaticParams using templates.
+
+Use whichever approach is:
+	•	Faster for page build time
+	•	Easier to QA and evolve at scale
+	•	Compatible with structured data (you’ll still need to output raw JSON-LD for Google)
+
+⸻
+
+5. Quality Control
+
+Garbage content = SEO death + zero LLM pickup. Implement structured validation.
+
+Run automated checks to validate:
+	•	Every guide has between 3–6 steps
+	•	Every guide includes at least 3 products
+	•	Every guide includes at least 1 warning
+	•	Every page passes JSON-LD validation (HowTo + FAQ)
+
+Spot check pages like:
+	•	/remove/red-wine/cotton
+	•	/remove/blood/silk
+	•	/remove/ink/leather
+
+Ask: Would I trust this if I had this problem at home?
+
+⸻
+
+6. Style the Output
+
+Use <section> components in your React layout for:
+	•	Intro
+	•	Checklist
+	•	Steps (<ol className="step-list">)
+	•	Warning (<aside className="warning">)
+	•	Effectiveness Summary
+	•	FAQ Accordion
+
+Trigger Anime.js for subtle animations:
+	•	Checklist items fade in (supply-list)
+	•	Steps slide in (.step)
+	•	Warning bounces once
+	•	FAQ expands smoothly
+
+⸻
+
+Final Output Per Page (Minimum)
+	•	1 Title
+	•	1 Paragraph of intro
+	•	5–8 items in checklist
+	•	4–6 step-by-step instructions
+	•	1 Warnings box
+	•	1 Effectiveness statement
+	•	2–3 FAQs
+	•	Valid JSON-LD for HowTo + FAQ
+
+⸻
+
+Stretch Content Goals (Optional)
+	•	Add stain color swatches (from stains.color)
+	•	Auto-link related pages (e.g. other materials with same stain)
+	•	Add “Was this helpful?” feedback for future tuning
+	•	Add downloadable PDF button (print-friendly stain card)
+

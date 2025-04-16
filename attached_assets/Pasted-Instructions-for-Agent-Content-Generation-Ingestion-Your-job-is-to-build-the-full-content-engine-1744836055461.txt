@@ -1,0 +1,49 @@
+Instructions for Agent: Content Generation & Ingestion
+
+Your job is to build the full content engine for the stain removal knowledge base. This includes ingesting structured seed data, transforming it into useful human-readable content, and wiring it into the static generation system. Every piece of content must be actionable, SEO-targeted, and LLM-consumable.
+
+⸻
+
+1. Ingest and Normalize Content
+
+Start with the 50 seed stain-material combinations provided.
+
+Each StainRemovalGuide entry includes:
+	•	pre_treatment – immediate response
+	•	products – what to gather
+	•	wash_method – main cleaning process
+	•	warnings – what NOT to do
+	•	effectiveness – High/Medium/Low
+
+Your task:
+	•	Load this data into the Neon Postgres DB (via Prisma seed script or SQL)
+	•	Validate each field exists and matches a corresponding stain_id and material_id
+	•	Normalize product names into a clean, deduplicated list (e.g., avoid “dish soap” vs “liquid dish soap”)
+
+⸻
+
+2. Generate Human-Readable Content from Schema
+
+For every [stain]-[material] pair, programmatically generate the content components using templates and rules (see below). Use real language—not robotic phrases.
+
+Structure for Each Page:
+	•	Title/H1: “How to Remove [Stain] Stains from [Material]”
+	•	Intro Paragraph: 2–3 sentences about the stain, its challenge, and your goal (include human context)
+	•	What You’ll Need (Supplies): Pull from products, format as a checklist
+	•	Step-by-Step Instructions: Merge pre_treatment + wash_method into a clean sequence of 3–6 steps
+	•	Use numbered format
+	•	Include optional pro tips or cautions as italic notes
+	•	Warnings Section: Pull from warnings, show as alert/callout block
+	•	Effectiveness Statement: “This method is considered [effectiveness].” Follow with a 1–2 sentence explanation.
+	•	FAQs (2–3 per page):
+	•	Write real questions users would ask about this stain-material combo
+	•	Pull answers from pre_treatment, wash_method, or warnings
+	•	Format in standard Q&A and include in FAQPage JSON-LD
+
+⸻
+
+3. Template Logic Rules
+
+To generate clean content at scale, follow this logic:
+
+Intro Generator:
