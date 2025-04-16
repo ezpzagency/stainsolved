@@ -1,0 +1,140 @@
+Here is the fully updated prompt with Neon, Anime.js, and front-end design instructions integrated into a complete, production-grade directive for an agentic engineer. This version keeps strategic clarity and execution-focused direction across frontend, backend, SEO, and interaction layers:
+
+⸻
+
+Project: Build a Scalable, SEO-Optimized, AI-Friendly Stain Removal Knowledge Base
+
+You are building a structured content engine, not a blog. This site is designed to:
+	•	Scale via programmatic SEO
+	•	Be a go-to source for LLMs
+	•	Deliver high user experience and trust
+	•	Support long-term content growth and AI citation
+
+This build combines a structured backend (Neon + Prisma), static site generation (Next.js), interactive frontend UX (Anime.js), and SEO/AI integration (Schema.org, sitemap, crawler logging).
+
+⸻
+
+Core Stack
+	•	Frontend: Next.js (App Router + React Server Components)
+	•	Backend: Neon (serverless Postgres)
+	•	ORM: Prisma
+	•	Animation Library: Anime.js (https://animejs.com/)
+	•	Deployment: Vercel
+	•	Analytics: Google Analytics 4 + server-side logs for AI crawler detection
+
+⸻
+
+Deliverables & Responsibilities
+
+1. Neon DB Schema
+
+Design a normalized schema with 3 core entities:
+	•	Stains: stain_id, name, color, category
+	•	Materials: material_id, name, type, care_notes
+	•	StainRemovalGuide: guide_id, stain_id, material_id, pre_treatment, products, wash_method, warnings, effectiveness, last_updated
+
+Seed the DB with 50+ provided stain-material entries. Add indexing for fast lookup and ensure composite uniqueness on (stain_id, material_id).
+
+⸻
+
+2. Page Generation (Programmatic SEO)
+	•	Implement dynamic routing using App Router:
+app/remove/[stain]/[material]/page.tsx
+	•	Pre-generate pages at build time via generateStaticParams
+	•	Pull all content from Neon via Prisma and hydrate props
+	•	Page structure must include:
+	•	H1: “How to Remove [Stain] from [Material]”
+	•	Introduction + context
+	•	Supplies checklist (from products)
+	•	Ordered instructions (from pre_treatment, wash_method)
+	•	Highlighted warnings (from warnings)
+	•	Outcome summary (from effectiveness)
+	•	FAQ (2–3 real questions per combo)
+	•	JSON-LD Schema (see section 4)
+
+⸻
+
+3. Frontend Design & Interaction (Anime.js + UX)
+
+The frontend must feel visually clean, fast, and interactive—like a high-trust knowledge utility site. Integrate Anime.js for subtle but delightful microinteractions, NOT gimmicks.
+
+Design Instructions:
+	•	Typography: Use a clean, high-legibility serif or modern font (e.g. Inter, Source Serif).
+	•	Color palette: Neutral with soft accent colors based on stain categories (e.g., red for wine, brown for mud). Minimal use of color unless communicating category.
+	•	Layout: Responsive and mobile-first, with emphasis on clarity and scan-ability.
+	•	UX Features with Anime.js:
+	•	Animate checklist items fading in sequentially (.supply-item) when they come into view.
+	•	Subtle slide/fade for each HowTo step (.step), staggered based on position.
+	•	Highlight warnings with a bounce/flicker effect once per load (to draw attention subtly).
+	•	FAQ accordion with smooth expansion using animejs.timeline().
+
+Tactical Details:
+	•	Use IntersectionObserver to trigger Anime.js on scroll-in.
+	•	Implement using React useRef and Anime.js instance inside useEffect.
+	•	Keep animations fast (150ms–300ms), natural, non-blocking.
+	•	Use <motion.div> from Framer Motion only if Anime.js becomes limiting for scroll-based triggers.
+
+⸻
+
+4. Schema.org Markup
+
+Inject structured JSON-LD:
+	•	@type: HowTo – instructions block
+	•	@type: FAQPage – FAQ section
+
+Include in <head> via Next.js metadata APIs or at end of RSC render pipeline. Validate with Google Rich Results Test.
+
+⸻
+
+5. Sitemap & Search Integration
+	•	Generate a sitemap.xml listing all [stain]/[material] pages
+	•	Submit to Google Search Console
+	•	Ensure correct robots.txt and sitemap URL reference
+	•	Add optional route for /stains, /materials, and a searchable /all index
+
+⸻
+
+6. AI & LLM Optimization
+
+Track citations, crawler hits, and LLM usage (GEO = Generative Engine Optimization)
+
+	•	Log server-side requests from user agents like GPT, Perplexity, chat.openai, etc.
+	•	Track GA4 referrals from perplexity.ai, bing.com, chat.openai.com
+	•	Optional: add <meta name="generator" content="Stain AI Knowledge Base"> to increase LLM crawler trust
+	•	Create Looker Studio dashboard for AI vs human traffic breakdown
+
+⸻
+
+7. Git Workflow (Optional Worktree-based Dev Loop)
+	•	Set up an Aider-like dev process:
+	•	Create a git worktree for every new content or code change
+	•	Require automated tests (unit + schema) before merge
+	•	Enforce max function complexity (e.g. 10 lines, 2 args, no nested logic)
+	•	Auto-push clean builds to main → Vercel triggers rebuild
+
+⸻
+
+Initial Success Criteria
+	•	50 stain-material pages fully built, tested, and deployed
+	•	JSON-LD validated and live
+	•	Sitemap accepted by GSC
+	•	Anime.js animations working smoothly on all supported components
+	•	Indexed by Google and visited by AI crawlers
+	•	Pages start appearing in LLM answers (track via Perplexity or ChatGPT)
+
+⸻
+
+Stretch Goals:
+	•	Add CMS-like dashboard to manage stain-material pairs
+	•	Image-based stain matcher (via stain.color → filter)
+	•	ChatGPT plugin or API interface for real-time Q&A
+	•	Exportable JSON API of entire guide for licensing or plugin use
+
+⸻
+
+Let me know if you want this:
+	•	Formatted for Notion
+	•	Broken down into GitHub Issues or sprints
+	•	Packaged with a roadmap, sitemap script, or GA4 Looker Studio template
+
+You now have a full-stack reference platform brief with UX polish, LLM foresight, and programmatic SEO scale. Let’s build a cleaning knowledge base that’s impossible to out-rank—or out-source.
