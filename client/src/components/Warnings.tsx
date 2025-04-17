@@ -19,10 +19,10 @@ const Warnings = ({ warnings }: WarningsProps) => {
         Important Warnings
       </h2>
       
-      <Card className="border-destructive/20">
+      <Card className="border-destructive/20 transition-all duration-300 hover:shadow-md">
         <CardHeader className="pb-2">
           <AlertTitle className="text-destructive flex items-center gap-2">
-            <AlertCircle className="h-4 w-4" />
+            <AlertCircle className="h-4 w-4 animate-pulse" />
             Before You Begin
           </AlertTitle>
         </CardHeader>
@@ -39,9 +39,13 @@ const Warnings = ({ warnings }: WarningsProps) => {
             viewport={{ once: true }}
           >
             {warnings.map((warning, index) => (
-              <Alert key={index} variant="destructive" className="border-l-4">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription className="ml-2">
+              <Alert 
+                key={index} 
+                variant="destructive" 
+                className="border-l-4 transition-all duration-200 hover:bg-destructive/10 hover:border-l-[6px] group"
+              >
+                <AlertCircle className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+                <AlertDescription className="ml-2 transition-colors duration-200">
                   {warning}
                 </AlertDescription>
               </Alert>
@@ -49,6 +53,7 @@ const Warnings = ({ warnings }: WarningsProps) => {
           </motion.div>
         </CardContent>
       </Card>
+      {/* Prefers-reduced-motion is handled in global CSS */}
     </section>
   );
 };

@@ -51,9 +51,9 @@ const SuppliesList = ({ supplies }: SuppliesListProps) => {
             key={index} 
             variants={item}
           >
-            <Card>
+            <Card className="group transition-all duration-200 hover:shadow-md hover:border-primary/50 focus-within:border-primary/50 focus-within:shadow-md">
               <CardContent className="p-4 flex items-start gap-3">
-                <Badge variant="outline" className="p-1 bg-primary/10 border-0">
+                <Badge variant="outline" className="p-1 bg-primary/10 border-0 transition-transform duration-150 group-hover:scale-110 group-focus:scale-110">
                   <CheckCircle className="h-5 w-5 text-primary" />
                 </Badge>
                 <div>

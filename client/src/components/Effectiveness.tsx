@@ -50,11 +50,11 @@ const Effectiveness = ({ data }: EffectivenessProps) => {
         Effectiveness & Results
       </h2>
       
-      <Card>
+      <Card className="transition-all duration-300 hover:shadow-md">
         <CardHeader className="pb-2">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <CardTitle className="text-lg">Success Rate</CardTitle>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 transition-transform duration-300 hover:scale-105">
               <div className="flex">
                 {renderStars(rating)}
               </div>
@@ -69,38 +69,38 @@ const Effectiveness = ({ data }: EffectivenessProps) => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="space-y-2">
+            <div className="space-y-2 group/progress transition-all duration-200 hover:bg-secondary/30 rounded-lg p-2 -m-2">
               <div className="flex justify-between items-center">
                 <h4 className="font-medium text-sm">Fresh Stains</h4>
-                <span className="text-sm font-medium">{freshStains}%</span>
+                <span className="text-sm font-medium transition-all duration-200 group-hover/progress:font-bold">{freshStains}%</span>
               </div>
               <div className="w-full bg-secondary rounded-full h-2 overflow-hidden">
                 <div 
-                  className={`h-full ${freshStains > 70 ? "bg-green-500" : "bg-yellow-500"}`}
+                  className={`h-full ${freshStains > 70 ? "bg-green-500" : "bg-yellow-500"} transition-all duration-500 ease-in-out group-hover/progress:brightness-110`}
                   style={{ width: `${freshStains}%` }}
                 ></div>
               </div>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 group/progress transition-all duration-200 hover:bg-secondary/30 rounded-lg p-2 -m-2">
               <div className="flex justify-between items-center">
                 <h4 className="font-medium text-sm">Old Stains (1-3 days)</h4>
-                <span className="text-sm font-medium">{oldStains}%</span>
+                <span className="text-sm font-medium transition-all duration-200 group-hover/progress:font-bold">{oldStains}%</span>
               </div>
               <div className="w-full bg-secondary rounded-full h-2 overflow-hidden">
                 <div 
-                  className={`h-full ${oldStains > 70 ? "bg-green-500" : "bg-yellow-500"}`}
+                  className={`h-full ${oldStains > 70 ? "bg-green-500" : "bg-yellow-500"} transition-all duration-500 ease-in-out group-hover/progress:brightness-110`}
                   style={{ width: `${oldStains}%` }}
                 ></div>
               </div>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 group/progress transition-all duration-200 hover:bg-secondary/30 rounded-lg p-2 -m-2">
               <div className="flex justify-between items-center">
                 <h4 className="font-medium text-sm">Set-in Stains ({'>'}1 week)</h4>
-                <span className="text-sm font-medium">{setInStains}%</span>
+                <span className="text-sm font-medium transition-all duration-200 group-hover/progress:font-bold">{setInStains}%</span>
               </div>
               <div className="w-full bg-secondary rounded-full h-2 overflow-hidden">
                 <div 
-                  className={`h-full ${setInStains > 70 ? "bg-green-500" : "bg-yellow-500"}`}
+                  className={`h-full ${setInStains > 70 ? "bg-green-500" : "bg-yellow-500"} transition-all duration-500 ease-in-out group-hover/progress:brightness-110`}
                   style={{ width: `${setInStains}%` }}
                 ></div>
               </div>

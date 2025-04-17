@@ -50,18 +50,21 @@ const Instructions = ({ steps }: InstructionsProps) => {
       >
         {steps.map((step, index) => (
           <motion.div key={index} variants={item}>
-            <Card>
+            <Card className="group transition-all duration-200 hover:shadow-md hover:border-primary/30 focus-within:border-primary/30 focus-within:shadow-md">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-3">
-                  <Badge variant="outline" className="h-8 w-8 p-0 flex items-center justify-center rounded-full bg-primary text-primary-foreground font-bold">
+                  <Badge 
+                    variant="outline" 
+                    className="h-8 w-8 p-0 flex items-center justify-center rounded-full bg-primary text-primary-foreground font-bold transition-all duration-200 group-hover:scale-110 group-hover:bg-primary/90 group-focus-within:scale-110"
+                  >
                     {index + 1}
                   </Badge>
-                  <CardTitle className="text-base">{step.title}</CardTitle>
+                  <CardTitle className="text-base transition-colors duration-200 group-hover:text-primary/90">{step.title}</CardTitle>
                 </div>
               </CardHeader>
-              <Separator className="mb-2" />
+              <Separator className="mb-2 transition-colors duration-200 group-hover:bg-primary/20" />
               <CardContent>
-                <CardDescription className="text-muted-foreground leading-relaxed">
+                <CardDescription className="text-muted-foreground leading-relaxed transition-colors duration-200 group-hover:text-muted-foreground/90">
                   {step.description}
                 </CardDescription>
               </CardContent>

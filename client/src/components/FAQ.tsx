@@ -28,15 +28,25 @@ const FAQ = ({ faqs }: FAQProps) => {
         Frequently Asked Questions
       </h2>
       
-      <Card>
+      <Card className="hover:shadow-sm transition-all duration-300">
         <CardContent className="p-4 pt-6">
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border-b last:border-0">
-                <AccordionTrigger className="text-left font-medium hover:text-primary transition-colors py-4">
-                  {faq.question}
+              <AccordionItem 
+                key={index} 
+                value={`item-${index}`} 
+                className="border-b last:border-0 group/item transition-colors duration-200"
+              >
+                <AccordionTrigger 
+                  className="text-left font-medium transition-colors duration-200 
+                    hover:text-primary hover:no-underline py-4
+                    data-[state=open]:text-primary data-[state=open]:font-semibold"
+                >
+                  <span className="group-hover/item:translate-x-1 transition-transform duration-200">
+                    {faq.question}
+                  </span>
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-4">
+                <AccordionContent className="text-muted-foreground pb-4 transition-opacity duration-300">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
