@@ -1,4 +1,6 @@
-import { useRef, useEffect } from 'react';
+import { BarChart2, Star, StarHalf } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 interface EffectivenessData {
   rating: number;
@@ -26,73 +28,86 @@ const Effectiveness = ({ data }: EffectivenessProps) => {
     const hasHalfStar = rating % 1 >= 0.5;
     
     for (let i = 0; i < fullStars; i++) {
-      stars.push(<i key={`full-${i}`} className="ri-star-fill text-yellow-400"></i>);
+      stars.push(<Star key={`full-${i}`} className="h-5 w-5 fill-yellow-400 text-yellow-400" />);
     }
     
     if (hasHalfStar) {
-      stars.push(<i key="half" className="ri-star-half-fill text-yellow-400"></i>);
+      stars.push(<StarHalf key="half" className="h-5 w-5 fill-yellow-400 text-yellow-400" />);
     }
     
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
     for (let i = 0; i < emptyStars; i++) {
-      stars.push(<i key={`empty-${i}`} className="ri-star-line text-yellow-400"></i>);
+      stars.push(<Star key={`empty-${i}`} className="h-5 w-5 text-yellow-400" />);
     }
     
     return stars;
   };
 
   return (
-    <section className="mb-12">
-      <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-        <i className="ri-bar-chart-2-line text-primary"></i>
+    <section className="mb-12" id="effectiveness">
+      <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
+        <BarChart2 className="h-5 w-5 text-primary" />
         Effectiveness & Results
       </h2>
       
-      <div className="bg-white rounded-lg border border-slate-200 p-5 mb-5">
-        <div className="flex items-center mb-3">
-          <div className="text-lg font-semibold">Success Rate:</div>
-          <div className="ml-auto flex items-center">
-            <div className="flex">
-              {renderStars(rating)}
-            </div>
-            <span className="ml-2 font-medium">{rating}/5</span>
-          </div>
-        </div>
-        <p className="text-slate-700 mb-4">{description}</p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-slate-50 p-3 rounded">
-            <h4 className="font-medium text-slate-900 mb-1">Fresh Stains</h4>
-            <div className="flex items-center">
-              <div className="w-full bg-slate-200 rounded-full h-2.5">
-                <div className="bg-green-500 h-2.5 rounded-full" style={{ width: `${freshStains}%` }}></div>
+      <Card>
+        <CardHeader className="pb-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <CardTitle className="text-lg">Success Rate</CardTitle>
+            <div className="flex items-center gap-2">
+              <div className="flex">
+                {renderStars(rating)}
               </div>
-              <span className="ml-2 text-sm font-medium">{freshStains}%</span>
+              <Badge variant="outline" className="font-medium text-foreground">
+                {rating}/5
+              </Badge>
             </div>
           </div>
-          <div className="bg-slate-50 p-3 rounded">
-            <h4 className="font-medium text-slate-900 mb-1">Old Stains (1-3 days)</h4>
-            <div className="flex items-center">
-              <div className="w-full bg-slate-200 rounded-full h-2.5">
-                <div className="bg-green-500 h-2.5 rounded-full" style={{ width: `${oldStains}%` }}></div>
+          <CardDescription>
+            {description}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <h4 className="font-medium text-sm">Fresh Stains</h4>
+                <span className="text-sm font-medium">{freshStains}%</span>
               </div>
-              <span className="ml-2 text-sm font-medium">{oldStains}%</span>
-            </div>
-          </div>
-          <div className="bg-slate-50 p-3 rounded">
-            <h4 className="font-medium text-slate-900 mb-1">Set-in Stains ({'>'}1 week)</h4>
-            <div className="flex items-center">
-              <div className="w-full bg-slate-200 rounded-full h-2.5">
+              <div className="w-full bg-secondary rounded-full h-2 overflow-hidden">
                 <div 
-                  className={`${setInStains > 70 ? 'bg-green-500' : 'bg-yellow-500'} h-2.5 rounded-full`} 
+                  className={`h-full ${freshStains > 70 ? "bg-green-500" : "bg-yellow-500"}`}
+                  style={{ width: `${freshStains}%` }}
+                ></div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <h4 className="font-medium text-sm">Old Stains (1-3 days)</h4>
+                <span className="text-sm font-medium">{oldStains}%</span>
+              </div>
+              <div className="w-full bg-secondary rounded-full h-2 overflow-hidden">
+                <div 
+                  className={`h-full ${oldStains > 70 ? "bg-green-500" : "bg-yellow-500"}`}
+                  style={{ width: `${oldStains}%` }}
+                ></div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <h4 className="font-medium text-sm">Set-in Stains ({'>'}1 week)</h4>
+                <span className="text-sm font-medium">{setInStains}%</span>
+              </div>
+              <div className="w-full bg-secondary rounded-full h-2 overflow-hidden">
+                <div 
+                  className={`h-full ${setInStains > 70 ? "bg-green-500" : "bg-yellow-500"}`}
                   style={{ width: `${setInStains}%` }}
                 ></div>
               </div>
-              <span className="ml-2 text-sm font-medium">{setInStains}%</span>
             </div>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </section>
   );
 };
