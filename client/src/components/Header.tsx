@@ -40,7 +40,7 @@ const Header = () => {
             </NavigationMenuItem>
             
             <NavigationMenuItem>
-              <Link href="/guides">
+              <Link href="/stains">
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   Guides
                 </NavigationMenuLink>

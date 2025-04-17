@@ -115,15 +115,15 @@ const StainList = () => {
       {/* Category Tabs */}
       <div className="flex flex-wrap gap-2 mb-10 justify-center">
         <Link href="/stains">
-          <a className={`px-4 py-2 rounded-full text-sm font-medium ${!categoryFilter ? 'bg-primary text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'} transition-colors`}>
+          <div className={`px-4 py-2 rounded-full text-sm font-medium ${!categoryFilter ? 'bg-primary text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'} transition-colors`}>
             All Stains
-          </a>
+          </div>
         </Link>
         {Object.keys(categoryDisplayNames).map(category => (
           <Link key={category} href={`/stains?category=${category}`}>
-            <a className={`px-4 py-2 rounded-full text-sm font-medium ${categoryFilter === category ? 'bg-primary text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'} transition-colors`}>
+            <div className={`px-4 py-2 rounded-full text-sm font-medium ${categoryFilter === category ? 'bg-primary text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'} transition-colors`}>
               {categoryDisplayNames[category]}
-            </a>
+            </div>
           </Link>
         ))}
       </div>
@@ -154,8 +154,8 @@ const StainList = () => {
               const stainIcon = getStainIcon(stain.category);
               
               return (
-                <Link key={stain.id} href={`/stains/${stain.name}`}>
-                  <a className="bg-white rounded-lg border border-slate-200 p-5 hover:border-primary hover:shadow-md transition-all">
+                <Link key={stain.id} href={`/remove/${stain.name}/cotton`}>
+                  <div className="bg-white rounded-lg border border-slate-200 p-5 hover:border-primary hover:shadow-md transition-all">
                     <div className="flex items-center gap-3 mb-3">
                       <div className={`h-10 w-10 rounded-full bg-${stain.color}/20 flex items-center justify-center flex-shrink-0`}>
                         <i className={`${stainIcon} text-${stain.color}`}></i>
@@ -165,7 +165,7 @@ const StainList = () => {
                     <p className="text-sm text-slate-600">
                       {stain.description || `Learn how to remove ${stain.displayName.toLowerCase()} stains from various materials.`}
                     </p>
-                  </a>
+                  </div>
                 </Link>
               );
             })}
