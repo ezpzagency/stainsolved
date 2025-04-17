@@ -19,12 +19,21 @@ const StainRemoval = () => {
   
   // Track page view for analytics
   useEffect(() => {
+    // Skip tracking for AI traffic
+    if (window.isAITraffic && window.isAITraffic()) {
+      console.log('AI traffic detected, skipping analytics');
+      return;
+    }
+    
+    // Track with GA4 if available
     if (window.gtag) {
       window.gtag('event', 'page_view', {
         page_title: `How to Remove ${stain} from ${material}`,
         page_path: `/remove/${stain}/${material}`
       });
     }
+    
+    // Plausible automatically tracks page views
   }, [stain, material]);
 
   // Fetch guide data
