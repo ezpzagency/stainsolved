@@ -127,8 +127,32 @@ const StainRemoval = () => {
     }))
   });
 
+  // Generate meta description
+  const metaDescription = `Learn how to remove ${stainData.displayName.toLowerCase()} stains from ${materialData.displayName.toLowerCase()} with our step-by-step guide. Effective techniques using ${products.slice(0, 2).map(p => p.name.toLowerCase()).join(', ')} and more.`;
+  
+  // Generate canonical URL
+  const canonicalUrl = `/remove/${stain}/${material}`;
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
+      {/* SEO Meta Tags */}
+      <head>
+        <title>How to Remove {stainData.displayName} from {materialData.displayName} - StainSolver</title>
+        <meta name="description" content={metaDescription} />
+        <link rel="canonical" href={canonicalUrl} />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content={`How to Remove ${stainData.displayName} from ${materialData.displayName}`} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="article" />
+        
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={`How to Remove ${stainData.displayName} from ${materialData.displayName}`} />
+        <meta name="twitter:description" content={metaDescription} />
+      </head>
+      
       {/* SEO Structured Data */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToStructuredData) }}></script>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}></script>
