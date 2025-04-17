@@ -1,5 +1,7 @@
-import { useRef, useEffect } from 'react';
-import { useIntersectionObserver } from '@/utils/AnimationUtils';
+import { useRef } from 'react';
+import { FileText } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 
 interface Step {
   title: string;
@@ -11,76 +13,58 @@ interface InstructionsProps {
 }
 
 const Instructions = ({ steps }: InstructionsProps) => {
-  const instructionsRef = useRef<HTMLDivElement>(null);
-
-  // Set up intersection observer for step animation
-  useIntersectionObserver({
-    ref: instructionsRef,
-    onIntersect: (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show-step');
-        }
-      });
-    },
-    threshold: 0.2,
-    targetSelector: '.step'
-  });
-
-  // Add CSS rule for animation
-  useEffect(() => {
-    // Create style element if it doesn't exist
-    const styleId = 'instructions-animation-style';
-    if (!document.getElementById(styleId)) {
-      const style = document.createElement('style');
-      style.id = styleId;
-      style.textContent = `
-        .show-step {
-          opacity: 1 !important;
-          transform: translateX(0) !important;
-        }
-      `;
-      document.head.appendChild(style);
-    }
-
-    // Clean up
-    return () => {
-      const style = document.getElementById(styleId);
-      if (style) {
-        document.head.removeChild(style);
-      }
-    };
-  }, []);
-
   if (!steps || steps.length === 0) {
     return null;
   }
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, x: -20 },
+    show: { opacity: 1, x: 0, transition: { duration: 0.5 } }
+  };
+
   return (
     <section className="mb-12">
-      <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-        <i className="ri-file-list-3-line text-primary"></i>
+      <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
+        <FileText className="h-5 w-5 text-primary" />
         Step-by-Step Instructions
       </h2>
       
-      <div ref={instructionsRef} className="space-y-6">
+      <motion.div 
+        className="space-y-6"
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.1 }}
+      >
         {steps.map((step, index) => (
-          <div 
-            key={index} 
-            className="step bg-white rounded-lg border border-slate-200 p-5 shadow-sm opacity-0 transform -translate-x-5 transition-all duration-300 ease-out"
-          >
-            <div className="flex">
-              <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm flex-shrink-0 mr-4">
-                {index + 1}
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900 mb-2">{step.title}</h3>
-                <p className="text-slate-700 leading-relaxed">{step.description}</p>
-              </div>
-            </div>
-          </div>
+          <motion.div key={index} variants={item}>
+            <Card className="overflow-hidden">
+              <CardContent className="p-0">
+                <div className="flex p-5">
+                  <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm flex-shrink-0 mr-4">
+                    {index + 1}
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-2">{step.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 };
