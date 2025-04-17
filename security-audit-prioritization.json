@@ -1,0 +1,162 @@
+{
+  "frontend": {
+    "https_everywhere": {
+      "relevant_now": true,
+      "applies_to": "entire application serving and data transmission",
+      "will_be_needed_when": "already needed as the application serves content to users",
+      "priority": "🟡 Medium",
+      "effort": "Low (can be implemented via middleware in server/index.ts)",
+      "notes": "While Replit may provide HTTPS by default, explicit enforcement ensures security even when deployed elsewhere"
+    },
+    "input_validation_sanitization": {
+      "relevant_now": true,
+      "applies_to": "frontend form inputs and API response rendering",
+      "will_be_needed_when": "already implemented for API requests with Zod validation, but missing HTML sanitization",
+      "priority": "⚪ Low",
+      "effort": "Low (add DOMPurify for rendered content)",
+      "notes": "Current app doesn't display user-generated content directly, so risk is minimal"
+    },
+    "no_sensitive_browser_storage": {
+      "relevant_now": true,
+      "applies_to": "frontend storage of data",
+      "will_be_needed_when": "already properly implemented - no remediation needed",
+      "priority": "✅ Implemented",
+      "effort": "None - already compliant",
+      "notes": "Continue this pattern when adding new features"
+    },
+    "csrf_protection": {
+      "relevant_now": false,
+      "applies_to": "form submissions and state-changing API calls",
+      "will_be_needed_when": "user authentication is implemented or when accepting user-submitted content",
+      "priority": "⚪ Low",
+      "effort": "Medium (requires token generation and validation in forms)",
+      "notes": "Current application is primarily read-only for public users, with no user authentication"
+    },
+    "no_api_keys_in_frontend": {
+      "relevant_now": true,
+      "applies_to": "frontend code that makes API calls",
+      "will_be_needed_when": "already properly implemented - no remediation needed",
+      "priority": "✅ Implemented",
+      "effort": "None - already compliant",
+      "notes": "Continue this pattern when adding integrations with third-party services"
+    }
+  },
+  "backend": {
+    "authentication_fundamentals": {
+      "relevant_now": false,
+      "applies_to": "user login and protected routes",
+      "will_be_needed_when": "admin features are implemented for content management",
+      "priority": "⚪ Low",
+      "effort": "High (requires full auth system implementation)",
+      "notes": "User schema exists but is unused; implement when admin functionality is needed"
+    },
+    "authorization_checks": {
+      "relevant_now": false,
+      "applies_to": "protected API routes and admin functionality",
+      "will_be_needed_when": "admin features are implemented for content management",
+      "priority": "⚪ Low",
+      "effort": "Medium (requires middleware implementation after authentication is added)",
+      "notes": "Dependent on authentication implementation; not needed for current read-only public access"
+    },
+    "api_endpoint_protection": {
+      "relevant_now": true,
+      "applies_to": "write operations in API routes (POST/PUT/DELETE endpoints)",
+      "will_be_needed_when": "content management features are used",
+      "priority": "🟡 Medium",
+      "effort": "Medium (add middleware to protect write operations in server/routes.ts)",
+      "notes": "Current write endpoints (POST routes) are unprotected; add basic API key validation for these routes"
+    },
+    "sql_injection_prevention": {
+      "relevant_now": true,
+      "applies_to": "database queries via Drizzle ORM",
+      "will_be_needed_when": "already properly implemented - no remediation needed",
+      "priority": "✅ Implemented",
+      "effort": "None - already compliant",
+      "notes": "Continue using Drizzle ORM for all database operations"
+    },
+    "security_headers": {
+      "relevant_now": true,
+      "applies_to": "all HTTP responses from the server",
+      "will_be_needed_when": "already needed for all responses to browsers",
+      "priority": "🟡 Medium",
+      "effort": "Low (add middleware in server/index.ts)",
+      "notes": "Implement Helmet.js for easy security header management"
+    },
+    "ddos_protection": {
+      "relevant_now": true,
+      "applies_to": "all API endpoints, especially search and data-intensive operations",
+      "will_be_needed_when": "public-facing API becomes more heavily used",
+      "priority": "🟡 Medium",
+      "effort": "Low (add express-rate-limit middleware)",
+      "notes": "Particularly important for the '/api/sitemap' endpoint which is computationally expensive"
+    }
+  },
+  "practical": {
+    "dependencies_updated": {
+      "relevant_now": true,
+      "applies_to": "project dependencies and package management",
+      "will_be_needed_when": "continuous process throughout development",
+      "priority": "🟡 Medium",
+      "effort": "Low (configure Dependabot in GitHub)",
+      "notes": "One-time setup with ongoing automated benefits"
+    },
+    "error_handling": {
+      "relevant_now": true,
+      "applies_to": "API error responses and server error logging",
+      "will_be_needed_when": "already needed, especially in production environment",
+      "priority": "🟡 Medium",
+      "effort": "Low (improve error handler in server/index.ts)",
+      "notes": "Currently exposing error details in responses; use environment check to sanitize in production"
+    },
+    "secure_cookies": {
+      "relevant_now": false,
+      "applies_to": "session management and authentication",
+      "will_be_needed_when": "user authentication is implemented",
+      "priority": "⚪ Low",
+      "effort": "Low (configuration options when implementing authentication)",
+      "notes": "Implement alongside authentication system"
+    },
+    "file_upload_security": {
+      "relevant_now": false,
+      "applies_to": "no file upload functionality exists currently",
+      "will_be_needed_when": "if/when user uploads are implemented (not in current roadmap)",
+      "priority": "⚪ Low",
+      "effort": "N/A - feature not planned",
+      "notes": "Not applicable to current application scope"
+    },
+    "rate_limiting": {
+      "relevant_now": true,
+      "applies_to": "API endpoints, particularly POST operations and intensive queries",
+      "will_be_needed_when": "site traffic increases or when POST endpoints are used more frequently",
+      "priority": "🟡 Medium",
+      "effort": "Low (add express-rate-limit middleware)",
+      "notes": "Can be implemented alongside DDoS protection using the same library"
+    }
+  },
+  "summary": {
+    "high_priority_items": [],
+    "medium_priority_items": [
+      "security_headers",
+      "api_endpoint_protection",
+      "ddos_protection",
+      "rate_limiting",
+      "error_handling",
+      "https_everywhere",
+      "dependencies_updated"
+    ],
+    "low_priority_items": [
+      "input_validation_sanitization",
+      "csrf_protection",
+      "authentication_fundamentals",
+      "authorization_checks",
+      "secure_cookies",
+      "file_upload_security"
+    ],
+    "already_implemented": [
+      "no_sensitive_browser_storage",
+      "no_api_keys_in_frontend",
+      "sql_injection_prevention"
+    ],
+    "recommendations": "Focus first on the medium priority items, particularly security headers and rate limiting which are low-effort, high-impact improvements. The authentication-related items can be deferred until admin features are implemented."
+  }
+}

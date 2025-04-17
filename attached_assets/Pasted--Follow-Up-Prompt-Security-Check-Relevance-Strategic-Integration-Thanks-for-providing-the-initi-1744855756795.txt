@@ -1,0 +1,50 @@
+✅ Follow-Up Prompt: Security Check Relevance & Strategic Integration
+
+Thanks for providing the initial audit—before I review it in detail, I need one more level of context so we can properly triage and sequence outstanding tasks in line with the product roadmap.
+
+Please answer the following for each security item (especially anything marked ❌ or partially implemented):
+
+⸻
+
+🔍 For Every Security Measure:
+	1.	Is this relevant to the current build?
+	•	Does this apply to how the app works right now?
+	•	Or is it scoped for a future feature that’s not yet implemented?
+	2.	Where in the system would this be implemented?
+	•	What layer (frontend/backend/infrastructure)?
+	•	What specific file, route, or service would need this logic?
+	3.	If not yet relevant, when will it become important based on our roadmap?
+	•	For example: “File upload validation isn’t needed until we add user profile pictures in Phase 2”
+	•	Provide realistic, build-specific reasoning for deferring or sequencing the implementation
+	4.	What’s the priority level for this item?
+	•	Use one of:
+	•	🔴 High – Must be done before shipping current release (critical surface or CVE exposure)
+	•	🟡 Medium – Needed soon; relevant to active or near-term features
+	•	⚪ Low – Only becomes relevant in future stages; monitor or document for now
+	5.	Estimated effort (optional)
+	•	Quick note: Is this a 10-minute config tweak or a full implementation requiring logic/workflows?
+	6.	Additional notes or recommendations
+	•	If there’s an open-source lib, cloud-native config, or easy win that accelerates implementation, call it out.
+
+⸻
+
+✅ Output Format Example:
+
+"csrf_protection": {
+  "relevant_now": false,
+  "applies_to": "frontend forms & POST routes (none currently used)",
+  "will_be_needed_when": "we launch user-generated content in the next phase (stain submissions, feedback form)",
+  "priority": "⚪ Low",
+  "effort": "Low (can use built-in CSRF protection via NextAuth + server middleware)",
+  "notes": "Track until dynamic forms are introduced"
+}
+
+
+
+⸻
+
+The goal is to make sure we aren’t blindly trying to close every checkbox, but instead aligning security decisions with:
+	•	⚙️ how the app works today
+	•	🧱 what we’re building next
+	•	📐 what adds the most structural safety per unit of effort
+
