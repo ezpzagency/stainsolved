@@ -42,21 +42,22 @@ const Warnings = ({ warnings }: WarningsProps) => {
 
   // Different warning callout styles
   const getWarningStyle = (index: number) => {
-    // Rotate through 3 different styles
+    // Rotate through 3 different styles but only use valid variants
+    // (default or destructive based on the shadcn Alert component)
     switch (index % 3) {
-      case 0: // Standard style
+      case 0: // Standard destructive style
         return {
           variant: "destructive" as const,
           icon: AlertCircle,
           className: "border-l-4 transition-all duration-200 hover:bg-destructive/10 hover:border-l-[6px] group"
         };
-      case 1: // Badge style
+      case 1: // Badge style with default variant
         return {
           variant: "default" as const,
           icon: XOctagon,
           className: "border border-destructive/30 bg-destructive/5 transition-all duration-200 hover:bg-destructive/10 group"
         };
-      case 2: // Outline style - using default variant with custom styling
+      case 2: // Outline style with default variant
         return {
           variant: "default" as const,
           icon: Siren,

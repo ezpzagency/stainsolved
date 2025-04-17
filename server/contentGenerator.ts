@@ -522,7 +522,7 @@ export function generateFAQs(
     },
     {
       question: `I found a ${stainName} stain on my ${materialName} from last week. Is it too late to remove it?`,
-      answer: `It's not too late, but set-in stains require more work. For older ${stainName} stains on ${materialName}: 1) Apply the treatment in this guide but let solutions work longer, 2) Repeat treatments may be necessary—don't give up after one try, 3) Consider using enzymatic pre-treatment specifically formulated for ${stain.category === 'oil' ? 'grease and oil' : stain.name.includes('protein') ? 'protein-based stains' : 'organic stains'}, and 4) Be patient—set-in stains might fade gradually over multiple treatments rather than disappear entirely at once.`
+      answer: `It's not too late, but set-in stains require more work. For older ${stainName} stains on ${materialName}: 1) Apply the treatment in this guide but let solutions work longer, 2) Repeat treatments may be necessary—don't give up after one try, 3) Consider using enzymatic pre-treatment specifically formulated for ${stain.category === 'oil' ? 'grease and oil' : (stain.category === 'food' && stain.name.includes('protein')) ? 'protein-based stains' : 'organic stains'}, and 4) Be patient—set-in stains might fade gradually over multiple treatments rather than disappear entirely at once.`
     },
     {
       question: `The ${stainName} stain on my ${materialName} has been there for weeks. Can your method still work?`,
