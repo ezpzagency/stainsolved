@@ -3,6 +3,21 @@ import { motion } from 'framer-motion';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 
+/**
+ * Warnings Component
+ * 
+ * Refactoring summary:
+ * - Previously: Custom alert UI with Anime.js animations
+ * - Now: Shadcn Alert components with Framer Motion for container animations
+ * 
+ * UI improvements:
+ * - Standardized alert design using Shadcn UI components
+ * - Proper semantic HTML structure with appropriate ARIA roles
+ * - Visual hierarchy with card container and alert items
+ * - Interactive hover states to highlight important warnings
+ * - Subtle entrance animation for better attention-drawing
+ */
+
 interface WarningsProps {
   warnings: string[];
 }

@@ -4,6 +4,20 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { motion } from 'framer-motion';
 
+/**
+ * Instructions Component
+ * 
+ * Migration from Anime.js to Framer Motion:
+ * - Previously: Used Anime.js for sequential step animations with scroll triggers
+ * - Now: Uses Framer Motion with viewport-based animations
+ * 
+ * Key improvements:
+ * - Declarative animation approach using variants
+ * - Leverages Intersection Observer via whileInView for scroll-based animations
+ * - Improved performance by only animating when component is in viewport
+ * - Better accessibility with reduced motion support
+ */
+
 interface Step {
   title: string;
   description: string;

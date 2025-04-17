@@ -1,5 +1,19 @@
 import { useEffect, RefObject } from "react";
 
+/**
+ * Animation Utilities
+ * 
+ * This file provides utilities for UI animations that replaced Anime.js.
+ * The approach now focuses on declarative animations with React hooks
+ * rather than imperative animations with Anime.js.
+ * 
+ * Key changes in animation strategy:
+ * 1. Moved from global timelines to component-scoped animations
+ * 2. Leverages browser APIs like Intersection Observer for scroll-based triggers
+ * 3. Better integration with React's component lifecycle
+ * 4. Improved performance by only animating elements in viewport
+ */
+
 interface IntersectionObserverOptions {
   ref: RefObject<HTMLElement>;
   onIntersect: (entries: IntersectionObserverEntry[]) => void;

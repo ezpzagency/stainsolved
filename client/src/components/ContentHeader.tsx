@@ -5,6 +5,19 @@ import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 
+/**
+ * ContentHeader Component
+ * 
+ * This component was refactored from using Anime.js to Framer Motion:
+ * - Previously: Used Anime.js timeline for staggered badge animations
+ * - Now: Uses Framer Motion's built-in variants for declarative animations
+ * 
+ * Benefits:
+ * - Component-scoped animations instead of global timeline
+ * - Better integration with React's component lifecycle
+ * - Improved accessibility with reduced motion support
+ */
+
 interface ContentHeaderProps {
   stainName: string;
   materialName: string;

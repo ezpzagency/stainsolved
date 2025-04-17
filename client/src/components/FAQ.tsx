@@ -7,6 +7,20 @@ import {
 } from "@/components/ui/accordion";
 import { Card, CardContent } from "@/components/ui/card";
 
+/**
+ * FAQ Component
+ * 
+ * Migration details:
+ * - Previously: Custom accordion with Anime.js for expand/collapse animations
+ * - Now: Shadcn Accordion component with built-in animations
+ * 
+ * Benefits:
+ * - Accessible accordion implementation with keyboard navigation
+ * - ARIA compliant component with proper roles and attributes
+ * - Smooth animations with CSS transitions instead of JavaScript
+ * - Responsive interaction pattern that works on all devices
+ */
+
 interface FAQ {
   question: string;
   answer: string;
