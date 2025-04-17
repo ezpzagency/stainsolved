@@ -9,7 +9,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // 1. Security Headers with Helmet
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "plausible.io", "www.googletagmanager.com"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "https://plausible.io", "https://www.google-analytics.com"],
+    },
+  },
+  crossOriginEmbedderPolicy: false,
+}));
 
 // 2. HTTPS Redirection Middleware (when not in development)
 app.use((req, res, next) => {
@@ -89,25 +100,27 @@ app.use((req, res, next) => {
   // 4. Improved error handling for production vs development
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
+    const isDev = process.env.NODE_ENV === 'development';
     
-    // In production, don't expose error details for 500 errors
-    if (process.env.NODE_ENV === 'production' && status >= 500) {
-      console.error('Server error:', err); // Log for debugging but don't expose
-      return res.status(status).json({ 
-        message: "Internal Server Error" 
-      });
-    }
+    // Always log errors server-side
+    console.error('[Error]:', {
+      status,
+      message: err.message,
+      stack: isDev ? err.stack : undefined,
+      timestamp: new Date().toISOString()
+    });
+
+    // Sanitize error response
+    const clientError = {
+      status,
+      message: status >= 500 
+        ? 'Internal Server Error'
+        : err.message || 'An error occurred',
+      ...(isDev && { stack: err.stack })
+    };
     
-    // In development or for non-500 errors, can expose more details
-    const message = err.message || "Internal Server Error";
-    
-    res.status(status).json({ message });
-    
-    // Only rethrow in development for better debugging
-    if (process.env.NODE_ENV !== 'production') {
-      throw err;
-    }
-  });
+    res.status(status).json(clientError);
+});
 
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
