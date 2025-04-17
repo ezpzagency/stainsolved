@@ -11,6 +11,7 @@ import FAQ from "@/components/FAQ";
 import RelatedGuides from "@/components/RelatedGuides";
 import Sidebar from "@/components/Sidebar";
 import GuideFeedback from "@/components/GuideFeedback";
+import PrintableGuide from "@/components/PrintableGuide";
 import { generateStructuredData } from "@/utils/SeoUtils";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -127,6 +128,8 @@ const StainRemoval = () => {
 
   const faqStructuredData = generateStructuredData({
     type: 'FAQPage',
+    name: `Frequently Asked Questions - ${stainData.displayName} on ${materialData.displayName}`,
+    description: `Common questions about removing ${stainData.displayName.toLowerCase()} stains from ${materialData.displayName.toLowerCase()}.`,
     mainEntity: faqItems.map(faq => ({
       "@type": "Question",
       name: faq.question,
@@ -198,6 +201,15 @@ const StainRemoval = () => {
           </section>
           
           {/* Supplies List */}
+          {/* Printable Stain Card */}
+          <PrintableGuide
+            stainName={stainData.displayName}
+            materialName={materialData.displayName}
+            steps={steps}
+            supplies={products}
+            warnings={warnings}
+          />
+          
           <SuppliesList supplies={products} />
           
           {/* Instructions */}

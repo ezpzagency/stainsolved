@@ -24,4 +24,56 @@
       animation: none !important;
     }
   }
+  
+  /* Print-specific styles */
+  @media print {
+    /* Hide non-essential elements when printing */
+    header, footer, nav, aside, button, 
+    .print-hide, [role="complementary"], [role="navigation"] {
+      display: none !important;
+    }
+    
+    /* Set page margins and ensure background colors print */
+    @page {
+      margin: 0.5cm;
+      size: letter;
+    }
+    
+    body {
+      background-color: white !important;
+      color: black !important;
+      min-height: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    
+    /* Force background colors to print */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    
+    /* Ensure the printable area is the only thing shown */
+    #printable-guide {
+      display: block !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      box-shadow: none !important;
+      margin: 0 !important;
+      padding: 1cm !important;
+    }
+    
+    /* Force page breaks where needed */
+    h2, h3 {
+      page-break-after: avoid;
+    }
+    
+    /* Avoid split lists */
+    ul, ol, li {
+      page-break-inside: avoid;
+    }
+  }
 }

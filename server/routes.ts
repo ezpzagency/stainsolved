@@ -26,9 +26,136 @@ function isAI(userAgent: string): boolean {
   return aiSignatures.some(sig => lowerAgent.includes(sig));
 }
 
+// Cache configuration for Incremental Static Regeneration (ISR)
+interface CacheItem {
+  data: any;
+  cachedAt: number;
+  revalidate: boolean;
+}
+
+// Simple in-memory ISR cache implementation
+class ISRCache {
+  private cache: Map<string, CacheItem>;
+  private revalidationInterval: number; // milliseconds
+  
+  constructor(revalidationInterval = 5 * 60 * 1000) { // Default: 5 minutes
+    this.cache = new Map();
+    this.revalidationInterval = revalidationInterval;
+  }
+  
+  get(key: string): any {
+    const item = this.cache.get(key);
+    
+    if (!item) return null;
+    
+    // Check if cache needs revalidation
+    const now = Date.now();
+    const isStale = (now - item.cachedAt) > this.revalidationInterval;
+    
+    if (isStale) {
+      // Mark for revalidation, but still return cached data
+      item.revalidate = true;
+      this.cache.set(key, item);
+    }
+    
+    return {
+      data: item.data,
+      isStale
+    };
+  }
+  
+  set(key: string, data: any): void {
+    this.cache.set(key, {
+      data,
+      cachedAt: Date.now(),
+      revalidate: false
+    });
+  }
+  
+  shouldRevalidate(key: string): boolean {
+    const item = this.cache.get(key);
+    return item ? item.revalidate : false;
+  }
+  
+  keys(): string[] {
+    return Array.from(this.cache.keys());
+  }
+}
+
+// Initialize ISR cache with revalidation interval of 5 minutes
+const isrCache = new ISRCache(5 * 60 * 1000);
+
+// Function to pre-cache top guides for ISR
+async function preloadTopGuidesForISR() {
+  try {
+    console.log('Preloading top guides for ISR cache...');
+    
+    // Get all guides
+    const allGuides = await storage.getAllStainRemovalGuides();
+    
+    // Prioritize frequently edited or high-interest stains
+    const priorityStains = ['blood', 'red_wine', 'coffee', 'ink', 'oil', 'makeup', 'grass', 'chocolate', 'mud', 'sweat'];
+    
+    // Sort guides by priority stains, then by last updated date
+    const sortedGuides = allGuides.sort((a, b) => {
+      // Get stain names for both guides (if available)
+      const stainA = priorityStains.indexOf(a.stainName || '');
+      const stainB = priorityStains.indexOf(b.stainName || '');
+      
+      // First sort by priority stains
+      if (stainA !== -1 && stainB === -1) return -1;
+      if (stainA === -1 && stainB !== -1) return 1;
+      if (stainA !== -1 && stainB !== -1) {
+        if (stainA !== stainB) return stainA - stainB;
+      }
+      
+      // Then sort by last updated
+      const dateA = new Date(a.lastUpdated).getTime();
+      const dateB = new Date(b.lastUpdated).getTime();
+      return dateB - dateA;
+    });
+    
+    // Get the top 10 guides
+    const topGuides = sortedGuides.slice(0, 10);
+    
+    // Cache each of the top guides
+    for (const guide of topGuides) {
+      try {
+        const stain = await storage.getStain(guide.stainId);
+        const material = await storage.getMaterial(guide.materialId);
+        
+        if (!stain || !material) continue;
+        
+        const relatedGuides = await storage.getRelatedGuides(stain.id, material.id);
+        
+        const cacheKey = `guide:${stain.name}:${material.name}`;
+        
+        // Cache the complete guide data
+        isrCache.set(cacheKey, {
+          stain,
+          material,
+          guide,
+          relatedGuides
+        });
+        
+        console.log(`Pre-cached guide: ${stain.name}/${material.name}`);
+      } catch (err) {
+        console.error(`Failed to pre-cache guide ID ${guide.id}:`, err);
+      }
+    }
+    
+    console.log(`Successfully pre-cached ${topGuides.length} top guides for ISR`);
+  } catch (error) {
+    console.error('Failed to preload top guides for ISR:', error);
+  }
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // prefix all routes with /api
   const httpServer = createServer(app);
+  
+  // Preload top guides for ISR on server start
+  preloadTopGuidesForISR();
 
   // Stains endpoints
   app.get("/api/stains", async (req, res) => {
@@ -128,10 +255,101 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Endpoint to get top guides for ISR prioritization
+  app.get("/api/guides/top", async (req, res) => {
+    try {
+      logRequest(req, "Get top guides for ISR");
+      
+      // Get all guides
+      const allGuides = await storage.getAllStainRemovalGuides();
+      
+      // Prioritize frequently edited or high-interest stains
+      const priorityStains = ['blood', 'red_wine', 'coffee', 'ink', 'oil', 'makeup', 'grass', 'chocolate', 'mud', 'sweat'];
+      
+      // Sort guides by priority stains, then by last updated date
+      const sortedGuides = allGuides.sort((a, b) => {
+        // Get stain names for both guides (if available)
+        const stainA = priorityStains.indexOf(a.stainName || '');
+        const stainB = priorityStains.indexOf(b.stainName || '');
+        
+        // First sort by priority stains
+        if (stainA !== -1 && stainB === -1) return -1;
+        if (stainA === -1 && stainB !== -1) return 1;
+        if (stainA !== -1 && stainB !== -1) {
+          if (stainA !== stainB) return stainA - stainB;
+        }
+        
+        // Then sort by last updated
+        const dateA = new Date(a.lastUpdated).getTime();
+        const dateB = new Date(b.lastUpdated).getTime();
+        return dateB - dateA;
+      });
+      
+      // Return the top 10 guides
+      res.json(sortedGuides.slice(0, 10));
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Failed to get top guides" });
+    }
+  });
+
   app.get("/api/guides/:stainName/:materialName", async (req, res) => {
     try {
       const { stainName, materialName } = req.params;
+      const cacheKey = `guide:${stainName}:${materialName}`;
       logRequest(req, `Get guide: ${stainName}/${materialName}`);
+      
+      // Check if we have cached data for ISR
+      const cachedResult = isrCache.get(cacheKey);
+      
+      // If we have valid cached data, return it immediately
+      if (cachedResult && !cachedResult.isStale) {
+        // Add cache header for client-side caching
+        res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=60');
+        res.json(cachedResult.data);
+        return;
+      }
+      
+      // If we have stale data, return it but trigger revalidation
+      if (cachedResult && cachedResult.isStale) {
+        // Return stale data immediately
+        res.set('Cache-Control', 'public, max-age=60, stale-while-revalidate=300');
+        res.json(cachedResult.data);
+        
+        // Revalidate data in the background
+        setTimeout(async () => {
+          try {
+            console.log(`Revalidating stale data for ${stainName}/${materialName}`);
+            
+            // Get fresh data
+            const stain = await storage.getStainByName(stainName);
+            const material = await storage.getMaterialByName(materialName);
+            
+            if (!stain || !material) return;
+            
+            const guide = await storage.getGuideByStainAndMaterial(stain.id, material.id);
+            if (!guide) return;
+            
+            const relatedGuides = await storage.getRelatedGuides(stain.id, material.id);
+            
+            // Update the cache with fresh data
+            isrCache.set(cacheKey, {
+              stain,
+              material,
+              guide,
+              relatedGuides
+            });
+            
+            console.log(`Successfully revalidated data for ${stainName}/${materialName}`);
+          } catch (error) {
+            console.error(`Failed to revalidate data for ${stainName}/${materialName}:`, error);
+          }
+        }, 100); // Small delay to avoid blocking the response
+        
+        return;
+      }
+      
+      // No cached data, fetch from database
       
       // Get stain and material
       const stain = await storage.getStainByName(stainName);
@@ -153,13 +371,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get related guides
       const relatedGuides = await storage.getRelatedGuides(stain.id, material.id);
       
-      // Return complete response with stain, material, guide and related guides
-      res.json({
+      // Prepare complete response
+      const responseData = {
         stain,
         material,
         guide,
         relatedGuides
-      });
+      };
+      
+      // Cache the data for future requests (ISR)
+      isrCache.set(cacheKey, responseData);
+      
+      // Set cache headers for client-side caching
+      res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=60');
+      
+      // Return complete response
+      res.json(responseData);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Failed to get guide" });
