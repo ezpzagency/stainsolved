@@ -1,0 +1,91 @@
+✅ Expert Prompt: Frontend, Backend, and Practical Security Audit
+
+Objective:
+Conduct and return a full, structured audit of the following security implementation areas across the entire stack (frontend, backend, infra). For each security measure listed below, I expect:
+	1.	✅ Whether it’s implemented or not
+	2.	⚙️ How it’s implemented (specific code references, middleware used, headers set, libraries chosen, etc.)
+	3.	🔍 Any caveats, limitations, or edge cases you’re aware of
+	4.	🛠️ If not implemented, briefly outline what would be required to implement it correctly
+
+Please return your results in a structured checklist format (✅/❌), along with implementation evidence or links to files/functions when applicable.
+
+⸻
+
+🔐 Frontend Security Audit
+
+Security Measure	Status	Implementation Details
+1. Use HTTPS everywhere	✅/❌	Are we enforcing HTTPS on all environments? Are we redirecting HTTP to HTTPS? Are we using HSTS?
+2. Input validation and sanitization	✅/❌	Are all user inputs sanitized/escaped? Are we using a sanitization lib (e.g., DOMPurify) or HTML escaping in templates?
+3. Don’t store sensitive data in the browser	✅/❌	Is anything sensitive (tokens, API keys, PII) stored in localStorage, sessionStorage, or embedded in the frontend bundle?
+4. CSRF protection	✅/❌	If forms/state-modifying requests exist, are we using anti-CSRF tokens (e.g., with same-origin POST requests)?
+5. Never expose API keys in frontend	✅/❌	Are all API credentials securely kept server-side, including for third-party services (e.g., OpenAI, Stripe)?
+
+
+
+⸻
+
+🛡️ Backend Security Audit
+
+Security Measure	Status	Implementation Details
+1. Authentication fundamentals	✅/❌	Are we using a battle-tested auth library (e.g., NextAuth, Passport)? Are passwords hashed with bcrypt/argon2? Are we using OAuth properly where relevant?
+2. Authorization checks	✅/❌	Are role/permission checks enforced on all protected routes and operations? Any RBAC/ABAC framework in use?
+3. API endpoint protection	✅/❌	Are all API routes authenticated? How are tokens verified (JWTs, sessions, etc.)? Is access enforced consistently across GET/POST/PUT/DELETE routes?
+4. SQL injection prevention	✅/❌	Are we using an ORM (e.g., Prisma, Drizzle)? Do any raw SQL statements involve user inputs?
+5. Basic security headers	✅/❌	Are we setting X-Frame-Options, X-Content-Type-Options, Strict-Transport-Security, Content-Security-Policy, etc.? Are we using a headers middleware?
+6. DDoS protection	✅/❌	Are we behind a WAF/CDN (e.g., Vercel, Cloudflare)? Do we have automated DDoS mitigation strategies in place?
+
+
+
+⸻
+
+⚙️ Practical Security Habits Audit
+
+Security Measure	Status	Implementation Details
+1. Keep dependencies updated	✅/❌	Are we using Dependabot, Renovate, or manually auditing deps for CVEs? Are we tracking outdated packages via CI?
+2. Proper error handling	✅/❌	Do we suppress stack traces and sensitive data in production errors? Are we logging securely on the backend?
+3. Secure cookies	✅/❌	Are we using HttpOnly, Secure, and SameSite=Strict on all cookies, especially for auth/session tokens?
+4. File upload security	✅/❌	If file uploads exist: are we validating file types, scanning for malware, restricting size? Are files stored outside of public access if needed?
+5. Rate limiting	✅/❌	Are we using IP-based rate limiting (e.g., via middleware like express-rate-limit or Vercel Edge Middleware)? Are login, auth, and write endpoints rate-limited?
+
+
+
+⸻
+
+📦 Output Format
+
+Please return your findings in the following structure:
+
+{
+  "frontend": {
+    "https_everywhere": {
+      "status": "✅",
+      "details": "All requests are redirected to HTTPS via Vercel config. HSTS headers enabled."
+    },
+    ...
+  },
+  "backend": {
+    "authentication_fundamentals": {
+      "status": "✅",
+      "details": "Using NextAuth with bcrypt for password storage. JWT-based sessions with 15-minute expiry."
+    },
+    ...
+  },
+  "practical": {
+    "rate_limiting": {
+      "status": "❌",
+      "details": "Not currently implemented. Recommend using `express-rate-limit` middleware at API gateway level."
+    },
+    ...
+  }
+}
+
+
+
+⸻
+
+🔚 Final Deliverables
+	•	✅ A complete JSON or Markdown table summary with checkmarks + details
+	•	✅ Source links or file paths (e.g., lib/auth.ts, middleware/headers.ts) where applicable
+	•	✅ Any open recommendations or TODOs to reach full compliance
+	•	✅ Estimated time to close remaining gaps (optional but preferred)
+
