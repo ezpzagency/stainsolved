@@ -1,5 +1,4 @@
 import { useRef, useEffect } from 'react';
-import { animate, stagger } from 'animejs';
 import { getStainIcon } from '@/lib/iconMap';
 
 interface ContentHeaderProps {
@@ -27,16 +26,43 @@ const ContentHeader = ({
   const stainIcon = getStainIcon(stainCategory);
 
   useEffect(() => {
-    // Animate info tags on component mount
+    // Add CSS rule for tag animations
+    const styleId = 'header-animation-style';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = `
+        .info-tag {
+          opacity: 0;
+          transform: translateX(20px);
+          animation: slideIn 0.4s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    // Apply staggered animations to info tags
     if (infoTagsRef.current) {
-      animate(infoTagsRef.current.children, {
-        translateX: [20, 0],
-        opacity: [0, 1],
-        delay: stagger(100),
-        easing: 'easeOutQuad',
-        duration: 400
+      const tags = Array.from(infoTagsRef.current.children);
+      tags.forEach((tag, index) => {
+        (tag as HTMLElement).style.animationDelay = `${index * 100}ms`;
       });
     }
+
+    // Clean up
+    return () => {
+      const style = document.getElementById(styleId);
+      if (style) {
+        document.head.removeChild(style);
+      }
+    };
   }, []);
 
   return (
@@ -55,19 +81,19 @@ const ContentHeader = ({
       </div>
       
       <div ref={infoTagsRef} className="flex flex-wrap gap-3 mb-6 info-tags">
-        <div className="px-3 py-1 rounded-full bg-slate-100 text-sm flex items-center gap-1">
+        <div className="info-tag px-3 py-1 rounded-full bg-slate-100 text-sm flex items-center gap-1">
           <i className="ri-timer-line"></i>
           <span>Time: {timeRequired}</span>
         </div>
-        <div className="px-3 py-1 rounded-full bg-slate-100 text-sm flex items-center gap-1">
+        <div className="info-tag px-3 py-1 rounded-full bg-slate-100 text-sm flex items-center gap-1">
           <i className="ri-bar-chart-line"></i>
           <span>Difficulty: {difficulty}</span>
         </div>
-        <div className="px-3 py-1 rounded-full bg-slate-100 text-sm flex items-center gap-1">
+        <div className="info-tag px-3 py-1 rounded-full bg-slate-100 text-sm flex items-center gap-1">
           <i className="ri-heart-line"></i>
           <span>Success Rate: {successRate}%</span>
         </div>
-        <div className="px-3 py-1 rounded-full bg-slate-100 text-sm flex items-center gap-1">
+        <div className="info-tag px-3 py-1 rounded-full bg-slate-100 text-sm flex items-center gap-1">
           <i className="ri-calendar-check-line"></i>
           <span>Last Updated: {new Date(lastUpdated).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</span>
         </div>

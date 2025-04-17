@@ -1,5 +1,4 @@
 import { useRef, useEffect } from 'react';
-import { animate, stagger } from 'animejs';
 
 interface Supply {
   name: string;
@@ -14,16 +13,43 @@ const SuppliesList = ({ supplies }: SuppliesListProps) => {
   const suppliesRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    // Animate supplies list on component mount
+    // Add CSS rule for supply item animations
+    const styleId = 'supplies-animation-style';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = `
+        .supply-item {
+          opacity: 0;
+          transform: translateY(20px);
+          animation: fadeInUp 0.3s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    // Apply staggered animations to supply items
     if (suppliesRef.current) {
-      animate(suppliesRef.current.children, {
-        opacity: [0, 1],
-        translateY: [20, 0],
-        easing: 'easeOutQuad',
-        duration: 300,
-        delay: stagger(150)
+      const items = Array.from(suppliesRef.current.children);
+      items.forEach((item, index) => {
+        (item as HTMLElement).style.animationDelay = `${index * 150}ms`;
       });
     }
+
+    // Clean up
+    return () => {
+      const style = document.getElementById(styleId);
+      if (style) {
+        document.head.removeChild(style);
+      }
+    };
   }, [supplies]);
 
   if (!supplies || supplies.length === 0) {
@@ -38,7 +64,7 @@ const SuppliesList = ({ supplies }: SuppliesListProps) => {
       </h2>
       <ul ref={suppliesRef} className="space-y-3 supply-items">
         {supplies.map((supply, index) => (
-          <li key={index} className="supply-item flex items-start gap-3 p-3 bg-white rounded-lg border border-slate-200 shadow-sm opacity-0">
+          <li key={index} className="supply-item flex items-start gap-3 p-3 bg-white rounded-lg border border-slate-200 shadow-sm">
             <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
               <i className="ri-check-line text-primary"></i>
             </div>

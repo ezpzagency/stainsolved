@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { animate } from 'animejs';
 
 interface FAQ {
   question: string;
@@ -17,43 +16,10 @@ const FAQ = ({ faqs }: FAQProps) => {
   const toggleFaq = (index: number) => {
     if (openFaq === index) {
       // Close current FAQ
-      const answerElement = answerRefs.current.get(index);
-      if (answerElement) {
-        animate(answerElement, {
-          height: 0,
-          opacity: 0,
-          duration: 300,
-          easing: 'easeOutQuad',
-          complete: function() {
-            setOpenFaq(null);
-          }
-        });
-      }
+      setOpenFaq(null);
     } else {
-      // Close previously open FAQ if any
-      if (openFaq !== null) {
-        const prevAnswerElement = answerRefs.current.get(openFaq);
-        if (prevAnswerElement) {
-          animate(prevAnswerElement, {
-            height: 0,
-            opacity: 0,
-            duration: 200,
-            easing: 'easeOutQuad'
-          });
-        }
-      }
-      
       // Open new FAQ
       setOpenFaq(index);
-      const answerElement = answerRefs.current.get(index);
-      if (answerElement) {
-        animate(answerElement, {
-          height: [0, answerElement.scrollHeight],
-          opacity: [0, 1],
-          duration: 300,
-          easing: 'easeOutQuad'
-        });
-      }
     }
   };
 
@@ -63,10 +29,18 @@ const FAQ = ({ faqs }: FAQProps) => {
       if (openFaq !== null) {
         const answerElement = answerRefs.current.get(openFaq);
         if (answerElement) {
-          answerElement.style.height = 'auto';
+          answerElement.style.maxHeight = `${answerElement.scrollHeight}px`;
         }
       }
     };
+
+    // Set initial maxHeight when an FAQ is opened
+    if (openFaq !== null) {
+      const answerElement = answerRefs.current.get(openFaq);
+      if (answerElement) {
+        answerElement.style.maxHeight = `${answerElement.scrollHeight}px`;
+      }
+    }
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -93,14 +67,14 @@ const FAQ = ({ faqs }: FAQProps) => {
               aria-controls={`faq-answer-${index}`}
             >
               <span>{faq.question}</span>
-              <i className={`${openFaq === index ? 'ri-arrow-up-s-line' : 'ri-arrow-down-s-line'} text-slate-400`}></i>
+              <i className={`${openFaq === index ? 'ri-arrow-up-s-line' : 'ri-arrow-down-s-line'} text-slate-400 transition-transform duration-200`}></i>
             </button>
             <div 
               ref={el => el && answerRefs.current.set(index, el)}
               id={`faq-answer-${index}`}
-              className="faq-answer px-4 pb-4"
+              className="faq-answer px-4 pb-4 transition-all duration-300 ease-in-out"
               style={{ 
-                height: openFaq === index ? 'auto' : 0, 
+                maxHeight: openFaq === index ? '1000px' : '0', 
                 opacity: openFaq === index ? 1 : 0,
                 overflow: 'hidden'
               }}

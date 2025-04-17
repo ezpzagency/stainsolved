@@ -1,5 +1,4 @@
 import { useRef, useEffect } from 'react';
-import { animate } from 'animejs';
 
 interface WarningsProps {
   warnings: string[];
@@ -9,16 +8,41 @@ const Warnings = ({ warnings }: WarningsProps) => {
   const warningBlockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Animate warning block on component mount
-    if (warningBlockRef.current) {
-      animate(warningBlockRef.current, {
-        scale: [0.95, 1],
-        opacity: [0, 1],
-        easing: 'easeOutElastic(1, .8)',
-        duration: 800,
-        delay: 500
-      });
+    // Add CSS rule for warning block animation
+    const styleId = 'warnings-animation-style';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = `
+        .warning-block-animate {
+          animation: scaleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+          opacity: 0;
+          transform: scale(0.95);
+          animation-delay: 500ms;
+        }
+        
+        @keyframes scaleIn {
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+      `;
+      document.head.appendChild(style);
     }
+
+    // Add animation class
+    if (warningBlockRef.current) {
+      warningBlockRef.current.classList.add('warning-block-animate');
+    }
+
+    // Clean up
+    return () => {
+      const style = document.getElementById(styleId);
+      if (style) {
+        document.head.removeChild(style);
+      }
+    };
   }, []);
 
   if (!warnings || warnings.length === 0) {

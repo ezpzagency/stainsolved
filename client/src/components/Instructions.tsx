@@ -1,5 +1,4 @@
 import { useRef, useEffect } from 'react';
-import { animate } from 'animejs';
 import { useIntersectionObserver } from '@/utils/AnimationUtils';
 
 interface Step {
@@ -20,19 +19,38 @@ const Instructions = ({ steps }: InstructionsProps) => {
     onIntersect: (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const target = entry.target;
-          animate(target, {
-            opacity: [0, 1],
-            translateX: [-20, 0],
-            easing: 'easeOutQuad',
-            duration: 300
-          });
+          entry.target.classList.add('show-step');
         }
       });
     },
     threshold: 0.2,
     targetSelector: '.step'
   });
+
+  // Add CSS rule for animation
+  useEffect(() => {
+    // Create style element if it doesn't exist
+    const styleId = 'instructions-animation-style';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = `
+        .show-step {
+          opacity: 1 !important;
+          transform: translateX(0) !important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    // Clean up
+    return () => {
+      const style = document.getElementById(styleId);
+      if (style) {
+        document.head.removeChild(style);
+      }
+    };
+  }, []);
 
   if (!steps || steps.length === 0) {
     return null;
@@ -49,7 +67,7 @@ const Instructions = ({ steps }: InstructionsProps) => {
         {steps.map((step, index) => (
           <div 
             key={index} 
-            className="step bg-white rounded-lg border border-slate-200 p-5 shadow-sm opacity-0"
+            className="step bg-white rounded-lg border border-slate-200 p-5 shadow-sm opacity-0 transform -translate-x-5 transition-all duration-300 ease-out"
           >
             <div className="flex">
               <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm flex-shrink-0 mr-4">
