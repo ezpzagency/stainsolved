@@ -112,12 +112,18 @@ const Warnings = ({ warnings }: WarningsProps) => {
         <CardContent>
           <motion.div 
             className="space-y-4"
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ 
-              duration: 0.5,
-              delay: 0.2,
-              ease: "easeOut"
+            initial={{ opacity: 0, scale: 0.98, y: 10 }}
+            whileInView={{ 
+              opacity: 1, 
+              scale: 1, 
+              y: 0,
+              transition: {
+                type: "spring",
+                stiffness: 400,
+                damping: 10,
+                duration: 0.5,
+                delay: 0.2
+              }
             }}
             viewport={{ once: true }}
           >
