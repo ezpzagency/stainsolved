@@ -1,10 +1,30 @@
-import type { Express, Request, Response } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { insertStainSchema, insertMaterialSchema, insertStainRemovalGuideSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
+
+// API Keys for content management - in a real app these would be stored securely
+// such as in environment variables, a secret manager, or a database
+const VALID_API_KEYS = ["stainremoval-api-dev", "stainremoval-api-admin"];
+
+// Middleware to protect write operations
+function protectWriteOperations(req: Request, res: Response, next: NextFunction) {
+  // 1. Check for API key in header
+  const apiKey = req.headers["x-api-key"];
+  
+  // 2. Validate the API key
+  if (!apiKey || !VALID_API_KEYS.includes(apiKey as string)) {
+    return res.status(401).json({
+      message: "Unauthorized: Valid API key required for write operations"
+    });
+  }
+  
+  // If valid API key, allow the request to proceed
+  next();
+}
 
 // Logger for AI crawler detection
 function logRequest(req: Request, info: string) {
@@ -186,7 +206,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/stains", async (req, res) => {
+  app.post("/api/stains", protectWriteOperations, async (req, res) => {
     try {
       const stainData = insertStainSchema.parse(req.body);
       const stain = await storage.createStain(stainData);
@@ -229,7 +249,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/materials", async (req, res) => {
+  app.post("/api/materials", protectWriteOperations, async (req, res) => {
     try {
       const materialData = insertMaterialSchema.parse(req.body);
       const material = await storage.createMaterial(materialData);
@@ -393,7 +413,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/guides", async (req, res) => {
+  app.post("/api/guides", protectWriteOperations, async (req, res) => {
     try {
       const guideData = insertStainRemovalGuideSchema.parse(req.body);
       const guide = await storage.createStainRemovalGuide(guideData);
