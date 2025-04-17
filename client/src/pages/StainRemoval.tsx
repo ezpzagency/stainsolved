@@ -10,6 +10,7 @@ import Effectiveness from "@/components/Effectiveness";
 import FAQ from "@/components/FAQ";
 import RelatedGuides from "@/components/RelatedGuides";
 import Sidebar from "@/components/Sidebar";
+import GuideFeedback from "@/components/GuideFeedback";
 import { generateStructuredData } from "@/utils/SeoUtils";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -201,6 +202,13 @@ const StainRemoval = () => {
           
           {/* FAQ */}
           <FAQ faqs={faqItems} />
+          
+          {/* Feedback Component */}
+          <GuideFeedback 
+            guideId={guide.id} 
+            stainName={stainData.displayName} 
+            materialName={materialData.displayName}
+          />
           
           {/* Related Guides */}
           <RelatedGuides guides={relatedGuidesData} />
