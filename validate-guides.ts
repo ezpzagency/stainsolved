@@ -40,25 +40,79 @@ async function validateAllGuides() {
       }
       
       // Convert database format to GuideData format
+      // Handle products - it might already be parsed or might be a string
+      let productsArray;
+      if (typeof guide.products === 'string') {
+        try {
+          productsArray = JSON.parse(guide.products);
+        } catch (err) {
+          console.log(`Error parsing products for guide ${guide.id}, using empty array:`, err);
+          productsArray = [];
+        }
+      } else {
+        productsArray = guide.products;
+      }
+      
+      // Handle warnings - it might already be parsed or might be a string
+      let warningsArray;
+      if (typeof guide.warnings === 'string') {
+        try {
+          warningsArray = JSON.parse(guide.warnings);
+        } catch (err) {
+          console.log(`Error parsing warnings for guide ${guide.id}, using empty array:`, err);
+          warningsArray = [];
+        }
+      } else {
+        warningsArray = guide.warnings;
+      }
+      
       const guideData: GuideData = {
         stainName: stain.name,
         materialName: material.name,
         preTreatment: guide.preTreatment,
-        products: JSON.parse(guide.products as string).map((p: any) => p.name),
+        products: Array.isArray(productsArray) 
+          ? productsArray.map((p: any) => typeof p === 'object' && p.name ? p.name : p)
+          : [],
         washMethod: guide.washMethod,
-        warnings: JSON.parse(guide.warnings as string),
+        warnings: Array.isArray(warningsArray) ? warningsArray : [],
         effectiveness: guide.effectiveness
       };
       
       // Parse steps and other generated content
-      const steps = JSON.parse(guide.steps as string);
-      const faqs = JSON.parse(guide.faq as string);
+      let steps: any[] = [];
+      let faqs: any[] = [];
+      let supplies: any[] = [];
+      
+      // Handle steps
+      if (typeof guide.steps === 'string') {
+        try {
+          steps = JSON.parse(guide.steps);
+        } catch (err) {
+          console.log(`Error parsing steps for guide ${guide.id}, using empty array:`, err);
+        }
+      } else if (guide.steps) {
+        steps = guide.steps as any[];
+      }
+      
+      // Handle FAQs
+      if (typeof guide.faq === 'string') {
+        try {
+          faqs = JSON.parse(guide.faq);
+        } catch (err) {
+          console.log(`Error parsing FAQs for guide ${guide.id}, using empty array:`, err);
+        }
+      } else if (guide.faq) {
+        faqs = guide.faq as any[];
+      }
+      
+      // Supplies are the same as products, but we already parsed them
+      supplies = productsArray;
       
       // Create content object for validation
       const content = {
         steps,
         faqs,
-        supplies: JSON.parse(guide.products as string),
+        supplies,
         difficulty: guide.difficulty,
         timeRequired: guide.timeRequired,
         successRate: guide.successRate
@@ -82,7 +136,7 @@ async function validateAllGuides() {
     }
     
     // Write validation report to file
-    const reportPath = path.join(__dirname, 'guide-validation-report.json');
+    const reportPath = 'guide-validation-report.json';
     fs.writeFileSync(reportPath, JSON.stringify(validationReport, null, 2));
     console.log(`Validation report written to ${reportPath}`);
     

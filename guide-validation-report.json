@@ -1,0 +1,527 @@
+{
+  "coffee_cotton": {
+    "stainName": "coffee",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 7,
+    "warningCount": 3,
+    "effectiveness": "excellent",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "coffee_carpet": {
+    "stainName": "coffee",
+    "materialName": "carpet",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 3,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "coffee_silk": {
+    "stainName": "coffee",
+    "materialName": "silk",
+    "stepCount": 5,
+    "productCount": 7,
+    "warningCount": 4,
+    "effectiveness": "fair",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "wine_cotton": {
+    "stainName": "wine",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "excellent",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "wine_carpet": {
+    "stainName": "wine",
+    "materialName": "carpet",
+    "stepCount": 5,
+    "productCount": 10,
+    "warningCount": 4,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "wine_marble": {
+    "stainName": "wine",
+    "materialName": "marble",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "fair",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "blood_cotton": {
+    "stainName": "blood",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "excellent",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "blood_silk": {
+    "stainName": "blood",
+    "materialName": "silk",
+    "stepCount": 5,
+    "productCount": 8,
+    "warningCount": 5,
+    "effectiveness": "fair",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "blood_leather": {
+    "stainName": "blood",
+    "materialName": "leather",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 5,
+    "effectiveness": "fair",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "cooking-oil_cotton": {
+    "stainName": "cooking-oil",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "cooking-oil_carpet": {
+    "stainName": "cooking-oil",
+    "materialName": "carpet",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "cooking-oil_wood": {
+    "stainName": "cooking-oil",
+    "materialName": "wood",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "fair",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "pen-ink_cotton": {
+    "stainName": "pen-ink",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "pen-ink_leather": {
+    "stainName": "pen-ink",
+    "materialName": "leather",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 5,
+    "effectiveness": "fair",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "pen-ink_carpet": {
+    "stainName": "pen-ink",
+    "materialName": "carpet",
+    "stepCount": 6,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "fair",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "tea_cotton": {
+    "stainName": "tea",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 8,
+    "warningCount": 3,
+    "effectiveness": "excellent",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "tea_carpet": {
+    "stainName": "tea",
+    "materialName": "carpet",
+    "stepCount": 4,
+    "productCount": 9,
+    "warningCount": 3,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "juice_cotton": {
+    "stainName": "juice",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 8,
+    "warningCount": 3,
+    "effectiveness": "excellent",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "juice_silk": {
+    "stainName": "juice",
+    "materialName": "silk",
+    "stepCount": 5,
+    "productCount": 7,
+    "warningCount": 4,
+    "effectiveness": "fair",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "chocolate_cotton": {
+    "stainName": "chocolate",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 8,
+    "warningCount": 3,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "chocolate_carpet": {
+    "stainName": "chocolate",
+    "materialName": "carpet",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "tomato-sauce_cotton": {
+    "stainName": "tomato-sauce",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "grass_cotton": {
+    "stainName": "grass",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 3,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "grass_polyester": {
+    "stainName": "grass",
+    "materialName": "polyester",
+    "stepCount": 4,
+    "productCount": 8,
+    "warningCount": 3,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "sweat_cotton": {
+    "stainName": "sweat",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "sweat_silk": {
+    "stainName": "sweat",
+    "materialName": "silk",
+    "stepCount": 5,
+    "productCount": 8,
+    "warningCount": 5,
+    "effectiveness": "fair",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "lipstick_cotton": {
+    "stainName": "lipstick",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "lipstick_leather": {
+    "stainName": "lipstick",
+    "materialName": "leather",
+    "stepCount": 6,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "fair",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "foundation_cotton": {
+    "stainName": "foundation",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "foundation_microfiber": {
+    "stainName": "foundation",
+    "materialName": "microfiber",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "rust_cotton": {
+    "stainName": "rust",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "fair",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "rust_marble": {
+    "stainName": "rust",
+    "materialName": "marble",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "fair",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "wax_cotton": {
+    "stainName": "wax",
+    "materialName": "cotton",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "excellent",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "wax_carpet": {
+    "stainName": "wax",
+    "materialName": "carpet",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 4,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  },
+  "tomato-sauce_plastic": {
+    "stainName": "tomato-sauce",
+    "materialName": "plastic",
+    "stepCount": 5,
+    "productCount": 9,
+    "warningCount": 3,
+    "effectiveness": "good",
+    "validation": {
+      "hasSteps": true,
+      "hasProducts": true,
+      "hasWarnings": true,
+      "hasEffectiveness": true
+    },
+    "valid": true
+  }
+}
