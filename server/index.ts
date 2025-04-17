@@ -1,11 +1,58 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// 1. Security Headers with Helmet
+app.use(helmet());
+
+// 2. HTTPS Redirection Middleware (when not in development)
+app.use((req, res, next) => {
+  // Check if we're on Replit or another hosting platform where HTTPS is available
+  // Skip for local development, which typically uses HTTP
+  const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
+  
+  if (!isSecure && process.env.NODE_ENV === 'production') {
+    // Redirect to HTTPS
+    return res.redirect('https://' + req.headers.host + req.url);
+  }
+  
+  // Add HSTS header when on HTTPS
+  if (isSecure) {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  }
+  
+  next();
+});
+
+// 3. Rate limiting for API routes
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  message: { message: "Too many requests, please try again later." }
+});
+
+// Apply rate limiting to API routes
+app.use("/api/", apiLimiter);
+
+// Enhanced rate limiting for computationally expensive endpoints
+const sitemapLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10, // Limit each IP to 10 requests per hour
+  standardHeaders: true,
+  message: { message: "Too many sitemap generation requests, please try again later." }
+});
+
+// Apply stricter rate limiting to sitemap endpoint
+app.use("/api/sitemap", sitemapLimiter);
+
+// Request logging middleware
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -39,12 +86,27 @@ app.use((req, res, next) => {
 (async () => {
   const server = await registerRoutes(app);
 
+  // 4. Improved error handling for production vs development
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
+    
+    // In production, don't expose error details for 500 errors
+    if (process.env.NODE_ENV === 'production' && status >= 500) {
+      console.error('Server error:', err); // Log for debugging but don't expose
+      return res.status(status).json({ 
+        message: "Internal Server Error" 
+      });
+    }
+    
+    // In development or for non-500 errors, can expose more details
     const message = err.message || "Internal Server Error";
-
+    
     res.status(status).json({ message });
-    throw err;
+    
+    // Only rethrow in development for better debugging
+    if (process.env.NODE_ENV !== 'production') {
+      throw err;
+    }
   });
 
   // importantly only setup vite in development and after
