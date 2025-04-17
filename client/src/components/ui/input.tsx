@@ -6,7 +6,10 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type, "aria-label": ariaLabel, id, ...props }, ref) => {
+    // If used outside of a FormControl, we should have an aria-label or label association
+    const needsAriaLabel = !props["aria-labelledby"] && !ariaLabel && !id;
+    
     return (
       <input
         type={type}
@@ -15,6 +18,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className
         )}
         ref={ref}
+        aria-label={needsAriaLabel ? (props.placeholder || "Input field") : ariaLabel}
+        id={id}
         {...props}
       />
     )
