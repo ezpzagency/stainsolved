@@ -1,5 +1,7 @@
 import { CheckCircle, ShoppingCart } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 interface Supply {
   name: string;
@@ -31,13 +33,13 @@ const SuppliesList = ({ supplies }: SuppliesListProps) => {
   };
 
   return (
-    <section className="mb-12">
+    <section className="mb-12" id="supplies">
       <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
         <ShoppingCart className="h-5 w-5 text-primary" />
         Supplies You'll Need
       </h2>
       
-      <motion.ul 
+      <motion.div 
         className="space-y-3"
         variants={container}
         initial="hidden"
@@ -45,21 +47,24 @@ const SuppliesList = ({ supplies }: SuppliesListProps) => {
         viewport={{ once: true, amount: 0.1 }}
       >
         {supplies.map((supply, index) => (
-          <motion.li 
+          <motion.div 
             key={index} 
             variants={item}
-            className="flex items-start gap-3 p-4 bg-card rounded-lg border shadow-sm"
           >
-            <div className="mt-0.5">
-              <CheckCircle className="h-5 w-5 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-medium text-card-foreground">{supply.name}</h3>
-              <p className="text-sm text-muted-foreground">{supply.description}</p>
-            </div>
-          </motion.li>
+            <Card>
+              <CardContent className="p-4 flex items-start gap-3">
+                <Badge variant="outline" className="p-1 bg-primary/10 border-0">
+                  <CheckCircle className="h-5 w-5 text-primary" />
+                </Badge>
+                <div>
+                  <h3 className="font-medium text-card-foreground">{supply.name}</h3>
+                  <p className="text-sm text-muted-foreground">{supply.description}</p>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
-      </motion.ul>
+      </motion.div>
     </section>
   );
 };

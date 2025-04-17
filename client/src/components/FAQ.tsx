@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface FAQ {
   question: string;
@@ -21,24 +22,28 @@ const FAQ = ({ faqs }: FAQProps) => {
   }
 
   return (
-    <section className="mb-10">
+    <section className="mb-10" id="faq">
       <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
         <HelpCircle className="h-5 w-5 text-primary" />
         Frequently Asked Questions
       </h2>
       
-      <Accordion type="single" collapsible className="w-full">
-        {faqs.map((faq, index) => (
-          <AccordionItem key={index} value={`item-${index}`}>
-            <AccordionTrigger className="text-left font-medium">
-              {faq.question}
-            </AccordionTrigger>
-            <AccordionContent className="text-muted-foreground">
-              {faq.answer}
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
+      <Card>
+        <CardContent className="p-4 pt-6">
+          <Accordion type="single" collapsible className="w-full">
+            {faqs.map((faq, index) => (
+              <AccordionItem key={index} value={`item-${index}`} className="border-b last:border-0">
+                <AccordionTrigger className="text-left font-medium hover:text-primary transition-colors py-4">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground pb-4">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </CardContent>
+      </Card>
     </section>
   );
 };

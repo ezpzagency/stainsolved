@@ -1,6 +1,7 @@
-import { useRef } from 'react';
 import { FileText } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import { motion } from 'framer-motion';
 
 interface Step {
@@ -34,7 +35,7 @@ const Instructions = ({ steps }: InstructionsProps) => {
   };
 
   return (
-    <section className="mb-12">
+    <section className="mb-12" id="instructions">
       <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
         <FileText className="h-5 w-5 text-primary" />
         Step-by-Step Instructions
@@ -49,17 +50,20 @@ const Instructions = ({ steps }: InstructionsProps) => {
       >
         {steps.map((step, index) => (
           <motion.div key={index} variants={item}>
-            <Card className="overflow-hidden">
-              <CardContent className="p-0">
-                <div className="flex p-5">
-                  <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm flex-shrink-0 mr-4">
+            <Card>
+              <CardHeader className="pb-2">
+                <div className="flex items-center gap-3">
+                  <Badge variant="outline" className="h-8 w-8 p-0 flex items-center justify-center rounded-full bg-primary text-primary-foreground font-bold">
                     {index + 1}
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-2">{step.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{step.description}</p>
-                  </div>
+                  </Badge>
+                  <CardTitle className="text-base">{step.title}</CardTitle>
                 </div>
+              </CardHeader>
+              <Separator className="mb-2" />
+              <CardContent>
+                <CardDescription className="text-muted-foreground leading-relaxed">
+                  {step.description}
+                </CardDescription>
               </CardContent>
             </Card>
           </motion.div>
