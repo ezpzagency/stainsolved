@@ -1,40 +1,47 @@
 import { Link } from "wouter";
+import { ChevronRight } from "lucide-react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+} from "@/components/ui/breadcrumb";
 
-interface BreadcrumbItem {
+interface BreadcrumbItemType {
   label: string;
   href?: string;
 }
 
 interface BreadcrumbsProps {
-  items: BreadcrumbItem[];
+  items: BreadcrumbItemType[];
 }
 
 const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
   return (
-    <nav className="mb-6">
-      <ol className="flex flex-wrap items-center text-sm text-slate-500">
+    <Breadcrumb className="mb-6">
+      <BreadcrumbList>
         {items.map((item, index) => (
-          <li key={index} className="flex items-center">
+          <BreadcrumbItem key={index}>
             {index < items.length - 1 ? (
               <>
                 {item.href ? (
-                  <Link href={item.href} className="hover:text-primary transition-colors">
-                    {item.label}
-                  </Link>
+                  <BreadcrumbLink asChild>
+                    <Link href={item.href}>{item.label}</Link>
+                  </BreadcrumbLink>
                 ) : (
                   <span>{item.label}</span>
                 )}
-                <svg className="w-3 h-3 mx-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                </svg>
+                {index < items.length - 1 && (
+                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                )}
               </>
             ) : (
-              <span className="text-slate-700 font-medium">{item.label}</span>
+              <span className="font-medium">{item.label}</span>
             )}
-          </li>
+          </BreadcrumbItem>
         ))}
-      </ol>
-    </nav>
+      </BreadcrumbList>
+    </Breadcrumb>
   );
 };
 

@@ -1,32 +1,53 @@
 import { Link } from "wouter";
+import { Droplet } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
 const Header = () => {
   return (
-    <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
+    <header className="bg-background border-b sticky top-0 z-10">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-primary text-2xl"><i className="ri-water-flash-line"></i></span>
+          <Droplet className="h-6 w-6 text-primary" />
           <span className="font-semibold text-lg">StainSolver</span>
         </Link>
-        <nav>
-          <ul className="flex gap-6">
-            <li>
-              <Link href="/stains" className="text-sm font-medium text-slate-700 hover:text-primary transition-colors">
-                Stains
+        
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <Link href="/stains">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Stains
+                </NavigationMenuLink>
               </Link>
-            </li>
-            <li>
-              <Link href="/materials" className="text-sm font-medium text-slate-700 hover:text-primary transition-colors">
-                Materials
+            </NavigationMenuItem>
+            
+            <NavigationMenuItem>
+              <Link href="/materials">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Materials
+                </NavigationMenuLink>
               </Link>
-            </li>
-            <li>
-              <Link href="/guides" className="text-sm font-medium text-slate-700 hover:text-primary transition-colors">
-                Guides
+            </NavigationMenuItem>
+            
+            <NavigationMenuItem>
+              <Link href="/guides">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Guides
+                </NavigationMenuLink>
               </Link>
-            </li>
-          </ul>
-        </nav>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
     </header>
   );
