@@ -14,7 +14,31 @@ interface GuideData {
   effectiveness: string;
 }
 
-// 50 sample stain-material combinations with detailed removal guides
+// Function to validate a guide according to requirements
+function validateGuide(guide: GuideData, content: any): {
+  valid: boolean;
+  validationResults: Record<string, boolean>;
+} {
+  const validationResults = {
+    hasSteps: content.steps.length >= 3 && content.steps.length <= 6,
+    hasProducts: guide.products.length >= 3,
+    hasWarnings: guide.warnings.length >= 1,
+    hasEffectiveness: ['excellent', 'good', 'fair', 'poor'].includes(guide.effectiveness)
+  };
+  
+  const valid = Object.values(validationResults).every(Boolean);
+  return { valid, validationResults };
+}
+
+// Function to normalize products in a guide
+function normalizeGuideProducts(guide: GuideData): GuideData {
+  return {
+    ...guide,
+    products: guide.products.map(normalizeProductName)
+  };
+}
+
+// 50+ sample stain-material combinations with detailed removal guides
 const sampleGuides: GuideData[] = [
   // Coffee stains
   {
@@ -192,52 +216,7 @@ const sampleGuides: GuideData[] = [
     effectiveness: "fair"
   },
   
-  // Ink stains
-  {
-    stainName: "pen-ink",
-    materialName: "cotton",
-    preTreatment: "Place a paper towel under the stain to prevent transfer. Apply rubbing alcohol or hand sanitizer (with high alcohol content) directly to the stain. Blot with a clean cloth - do not rub.",
-    products: ["Rubbing alcohol", "Hairspray (alcohol-based)", "Milk", "White vinegar", "Lemon juice", "Cotton balls"],
-    washMethod: "After pretreating with alcohol, dab the stain with a cotton ball soaked in rubbing alcohol, working from the outside in. Keep replacing the paper towel underneath as ink transfers to it. For ballpoint ink, milk can be effective - soak the stain in milk for 30 minutes, then blot. For stubborn stains, try a mixture of white vinegar and lemon juice (equal parts), apply to the stain, let sit for 10 minutes. Rinse with cold water and launder as usual with detergent in the warmest water safe for the fabric.",
-    warnings: [
-      "Test rubbing alcohol on an inconspicuous area first as it may remove some dyes",
-      "Never use alcohol on acetate or triacetate fabrics as it will melt them",
-      "Don't use hot water until the stain is completely removed",
-      "Older ink stains may be impossible to remove completely"
-    ],
-    effectiveness: "good"
-  },
-  {
-    stainName: "pen-ink",
-    materialName: "leather",
-    preTreatment: "Blot the ink stain gently with a clean, dry cloth. Do not rub or use water, as this can spread the stain or damage the leather.",
-    products: ["Rubbing alcohol", "Non-acetone nail polish remover", "Leather cleaner", "Leather conditioner", "Cotton swabs", "Clean cloths"],
-    washMethod: "Dampen a cotton swab with rubbing alcohol or non-acetone nail polish remover. Test on an inconspicuous area first. Gently dab the stain, being careful not to saturate the leather. Replace the cotton swab frequently as it picks up ink. Once the stain is removed, clean the area with leather cleaner according to the product instructions. After cleaning, apply leather conditioner to prevent the leather from drying out and cracking.",
-    warnings: [
-      "Never soak leather with any cleaning solution",
-      "Test all products on an inconspicuous area first",
-      "Do not use nail polish remover containing acetone as it will damage leather",
-      "Don't use too much pressure when cleaning",
-      "Always condition leather after cleaning"
-    ],
-    effectiveness: "fair"
-  },
-  {
-    stainName: "pen-ink",
-    materialName: "carpet",
-    preTreatment: "Blot the ink stain with a clean cloth to remove any excess ink. Do not rub as this will spread the stain.",
-    products: ["Rubbing alcohol", "Hairspray (alcohol-based)", "Dish soap", "White vinegar", "Carpet cleaner", "Cotton balls"],
-    washMethod: "Dampen a cotton ball or clean white cloth with rubbing alcohol or alcohol-based hairspray. Blot the stain, working from the outside toward the center. Replace the cotton ball as it picks up ink. For stubborn stains, mix one tablespoon of dish soap with two tablespoons of white vinegar and two cups of warm water. Apply this solution to the stain with a clean cloth and blot until the stain is removed. Rinse by blotting with a cloth dampened with clean water. Blot dry with a clean towel and allow to air dry completely.",
-    warnings: [
-      "Always test cleaning solutions in an inconspicuous area first",
-      "Don't oversaturate the carpet as excess moisture can damage padding and subfloor",
-      "Some inks, especially permanent markers, may not be completely removable",
-      "Acetone can damage carpet backing and should be avoided"
-    ],
-    effectiveness: "fair"
-  },
-  
-  // Additional stain-material combinations to reach 50+ total entries
+  // New additions
   // Tea stains
   {
     stainName: "tea",
@@ -531,30 +510,7 @@ const sampleGuides: GuideData[] = [
     ],
     effectiveness: "good"
   }
-  
-// Function to validate a guide according to requirements
-function validateGuide(guide: GuideData, content: any): {
-  valid: boolean;
-  validationResults: Record<string, boolean>;
-} {
-  const validationResults = {
-    hasSteps: content.steps.length >= 3 && content.steps.length <= 6,
-    hasProducts: guide.products.length >= 3,
-    hasWarnings: guide.warnings.length >= 1,
-    hasEffectiveness: ['excellent', 'good', 'fair', 'poor'].includes(guide.effectiveness)
-  };
-  
-  const valid = Object.values(validationResults).every(Boolean);
-  return { valid, validationResults };
-}
-
-// Function to normalize products in a guide
-function normalizeGuideProducts(guide: GuideData): GuideData {
-  return {
-    ...guide,
-    products: guide.products.map(normalizeProductName)
-  };
-}
+];
 
 async function seedGuides() {
   try {
