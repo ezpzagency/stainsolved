@@ -32,36 +32,36 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Popular Stains</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/stains/wine" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Wine Stains</Link></li>
-              <li><Link href="/stains/coffee" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Coffee Stains</Link></li>
-              <li><Link href="/stains/oil" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Oil & Grease</Link></li>
-              <li><Link href="/stains/ink" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Ink Stains</Link></li>
-              <li><Link href="/stains/blood" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Blood Stains</Link></li>
-              <li><Link href="/stains/grass" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Grass Stains</Link></li>
+              <li><Link href="/remove/wine/cotton" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Wine Stains</Link></li>
+              <li><Link href="/remove/coffee/cotton" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Coffee Stains</Link></li>
+              <li><Link href="/remove/oil/cotton" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Oil & Grease</Link></li>
+              <li><Link href="/remove/ink/cotton" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Ink Stains</Link></li>
+              <li><Link href="/remove/blood/cotton" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Blood Stains</Link></li>
+              <li><Link href="/remove/grass/cotton" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Grass Stains</Link></li>
             </ul>
           </div>
           
           <div>
             <h4 className="font-semibold mb-4">Common Materials</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/materials/cotton" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Cotton</Link></li>
-              <li><Link href="/materials/wool" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Wool</Link></li>
-              <li><Link href="/materials/silk" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Silk</Link></li>
-              <li><Link href="/materials/carpet" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Carpet</Link></li>
-              <li><Link href="/materials/upholstery" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Upholstery</Link></li>
-              <li><Link href="/materials/leather" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Leather</Link></li>
+              <li><Link href="/materials" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Cotton</Link></li>
+              <li><Link href="/materials" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Wool</Link></li>
+              <li><Link href="/materials" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Silk</Link></li>
+              <li><Link href="/materials" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Carpet</Link></li>
+              <li><Link href="/materials" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Upholstery</Link></li>
+              <li><Link href="/materials" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Leather</Link></li>
             </ul>
           </div>
           
           <div>
             <h4 className="font-semibold mb-4">Resources</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/about" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">About Us</Link></li>
-              <li><Link href="/contact" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Contact</Link></li>
-              <li><Link href="/blog" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Cleaning Blog</Link></li>
-              <li><Link href="/faq" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">FAQ</Link></li>
-              <li><Link href="/privacy" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/terms" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Terms of Service</Link></li>
+              <li><Link href="/" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">About Us</Link></li>
+              <li><Link href="/" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Contact</Link></li>
+              <li><Link href="/" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Cleaning Blog</Link></li>
+              <li><Link href="/" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">FAQ</Link></li>
+              <li><Link href="/" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
         </div>
