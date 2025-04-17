@@ -86,5 +86,33 @@ export default {
       },
     },
   },
+  // Critical classes that might get purged but are needed at runtime 
+  // (e.g., classes added by JavaScript)
+  safelist: [
+    // Interactive states for focus
+    'focus:outline-none',
+    'focus-visible:ring-2',
+    'focus-visible:ring-ring',
+    'focus-visible:ring-offset-2',
+    // Aria states
+    'aria-selected:bg-accent',
+    'aria-selected:text-accent-foreground',
+    'data-[disabled]:pointer-events-none',
+    'data-[disabled]:opacity-50',
+    // Accessibility classes
+    'sr-only',
+    // Animation classes needed for dynamic elements
+    'animate-in',
+    'fade-in',
+    'zoom-in',
+    'slide-in',
+    // States that are toggled by JavaScript
+    'data-[state=checked]:bg-primary',
+    'data-[state=open]:bg-accent',
+  ],
+  future: {
+    // Ensure proper purging and reduce bundle size
+    hoverOnlyWhenSupported: true,
+  },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;

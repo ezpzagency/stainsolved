@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessibility Keyboard Navigation Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    details {
+      margin: 15px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .test-item {
+      margin: 10px 0;
+      padding: 10px;
+      border-left: 3px solid #ddd;
+    }
+    .pass {
+      border-left-color: green;
+    }
+    .fail {
+      border-left-color: red;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .steps {
+      margin-top: 10px;
+      list-style-type: decimal;
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Accessibility Keyboard Navigation Test Guide</h1>
+  
+  <p>This document provides a checklist for manually testing keyboard accessibility of Shadcn UI components. 
+  Use this guide when the application is running to verify keyboard navigation works correctly.</p>
+  
+  <details open>
+    <summary>How to Use This Guide</summary>
+    <ol>
+      <li>Start with Tab key to navigate through interactive elements</li>
+      <li>Verify focus is visibly indicated on each element</li>
+      <li>Test element activation with Enter or Space keys</li>
+      <li>Test arrow key navigation where applicable</li>
+      <li>Verify Escape key closes popups, dialogs, and menus</li>
+    </ol>
+    <p>Mark each test as passing or failing once completed.</p>
+  </details>
+
+  <h2>Component Test Checklist</h2>
+
+  <details>
+    <summary>Form Controls</summary>
+    
+    <div class="test-item">
+      <h3>Input Fields</h3>
+      <p>Test keyboard accessibility of input elements:</p>
+      <ol class="steps">
+        <li>Tab to focus on input fields</li>
+        <li>Enter text into the input field</li>
+        <li>Verify inputs with validation errors have descriptions readable by screen readers</li>
+      </ol>
+      <p>Expected: Focus indicator should be visible around inputs, form validation errors should be associated with inputs.</p>
+    </div>
+    
+    <div class="test-item">
+      <h3>Textarea Fields</h3>
+      <p>Test keyboard accessibility of textarea elements:</p>
+      <ol class="steps">
+        <li>Tab to focus on textarea fields</li>
+        <li>Enter text and use arrow keys to navigate within textarea</li>
+        <li>Verify inputs with validation errors have descriptions readable by screen readers</li>
+      </ol>
+      <p>Expected: Focus indicator should be visible around textareas, form validation errors should be associated with inputs.</p>
+    </div>
+    
+    <div class="test-item">
+      <h3>Buttons</h3>
+      <p>Test keyboard accessibility of buttons:</p>
+      <ol class="steps">
+        <li>Tab to focus on buttons</li>
+        <li>Activate buttons with Enter or Space key</li>
+        <li>Verify that disabled buttons are skipped in tab order</li>
+      </ol>
+      <p>Expected: Focus indicator should be visible around buttons, and they should activate with Enter/Space.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Navigation Components</summary>
+    
+    <div class="test-item">
+      <h3>Navigation Menu</h3>
+      <p>Test keyboard accessibility of navigation menus:</p>
+      <ol class="steps">
+        <li>Tab to focus on menu items</li>
+        <li>Use arrow keys to navigate between menu items</li>
+        <li>Use Enter to select or activate menu items</li>
+        <li>Use Escape to close dropdown menus</li>
+      </ol>
+      <p>Expected: Focus should be visible on menu items, and arrow keys should allow navigation between items.</p>
+    </div>
+    
+    <div class="test-item">
+      <h3>Breadcrumbs</h3>
+      <p>Test keyboard accessibility of breadcrumb navigation:</p>
+      <ol class="steps">
+        <li>Tab to focus on breadcrumb links</li>
+        <li>Use Enter to activate breadcrumb links</li>
+      </ol>
+      <p>Expected: Focus indicator should be visible on breadcrumb links.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Interactive Components</summary>
+    
+    <div class="test-item">
+      <h3>Accordion</h3>
+      <p>Test keyboard accessibility of accordion components:</p>
+      <ol class="steps">
+        <li>Tab to focus on accordion headers</li>
+        <li>Use Enter or Space to expand/collapse accordion panels</li>
+        <li>Verify focus remains on the accordion header after expanding</li>
+      </ol>
+      <p>Expected: Focus indicator should be visible on accordion headers, and they should expand/collapse with Enter/Space.</p>
+    </div>
+    
+    <div class="test-item">
+      <h3>Dialog/Modal</h3>
+      <p>Test keyboard accessibility of dialogs:</p>
+      <ol class="steps">
+        <li>Open a dialog and verify focus is trapped inside</li>
+        <li>Tab through all interactive elements within the dialog</li>
+        <li>Use Escape key to close the dialog</li>
+        <li>Verify focus returns to the trigger element after dialog is closed</li>
+      </ol>
+      <p>Expected: Focus should be contained within the dialog when open, and Escape should close it.</p>
+    </div>
+    
+    <div class="test-item">
+      <h3>Carousel</h3>
+      <p>Test keyboard accessibility of carousel components:</p>
+      <ol class="steps">
+        <li>Tab to focus on carousel navigation buttons</li>
+        <li>Use arrow keys to navigate between carousel items</li>
+        <li>Verify carousel auto-play stops when focused</li>
+      </ol>
+      <p>Expected: Focus indicator should be visible on carousel controls, and arrow keys should navigate between slides.</p>
+    </div>
+  </details>
+
+  <h2>ARIA Attribute Compliance</h2>
+  
+  <table>
+    <tr>
+      <th>Component</th>
+      <th>Required ARIA</th>
+      <th>Implementation</th>
+    </tr>
+    <tr>
+      <td>Alert</td>
+      <td>role="alert"</td>
+      <td>✓ Implemented with proper aria-labelledby</td>
+    </tr>
+    <tr>
+      <td>Dialog</td>
+      <td>role="dialog", aria-modal="true"</td>
+      <td>✓ Implemented in Radix UI</td>
+    </tr>
+    <tr>
+      <td>Form fields</td>
+      <td>aria-required, aria-invalid, aria-describedby</td>
+      <td>✓ Implemented in FormControl</td>
+    </tr>
+    <tr>
+      <td>Tabs</td>
+      <td>role="tablist", role="tab", role="tabpanel"</td>
+      <td>✓ Implemented in Radix UI</td>
+    </tr>
+    <tr>
+      <td>Carousel</td>
+      <td>role="region", aria-roledescription="carousel"</td>
+      <td>✓ Implemented with keyboard support</td>
+    </tr>
+  </table>
+
+  <h2>Focus Management</h2>
+  
+  <p>Important considerations for focus management:</p>
+  <ul>
+    <li>Focus should be visually apparent on all interactive elements</li>
+    <li>Focus should be trapped within modal dialogs when open</li>
+    <li>Focus should return to trigger elements after modals close</li>
+    <li>Focus should not be lost during page navigation or content updates</li>
+    <li>Skip links should be available for keyboard users to bypass navigation</li>
+  </ul>
+
+  <h2>Motion and Animation</h2>
+  
+  <p>The codebase includes <code>prefers-reduced-motion</code> media query support in the CSS.
+  This ensures that users who prefer reduced motion have animations disabled or simplified.</p>
+  
+  <p>Example implementation in <code>client/src/index.css</code>:</p>
+  <pre>
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-pulse {
+    animation: none !important;
+  }
+}
+  </pre>
+</body>
+</html>

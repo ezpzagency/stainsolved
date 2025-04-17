@@ -6,7 +6,10 @@ export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, "aria-label": ariaLabel, id, ...props }, ref) => {
+    // If used outside of a FormControl, we should have an aria-label or label association
+    const needsAriaLabel = !props["aria-labelledby"] && !ariaLabel && !id;
+    
     return (
       <textarea
         className={cn(
@@ -14,6 +17,8 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           className
         )}
         ref={ref}
+        aria-label={needsAriaLabel ? (props.placeholder || "Text input area") : ariaLabel}
+        id={id}
         {...props}
       />
     )
